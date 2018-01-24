@@ -1,0 +1,11 @@
+version: '3'
+services:
+  bahmni:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: bahmni-main
+    ports:
+      - "443:443"
+    restart: always
+
