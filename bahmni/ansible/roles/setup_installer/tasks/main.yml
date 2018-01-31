@@ -1,0 +1,75 @@
+---
+
+- name: Install the Bahmni installer
+  yum:
+    name: "https://dl.bintray.com/bahmni/rpm/rpms/bahmni-installer-0.90-291.noarch.rpm"
+    state: present
+
+- name: Synchronize the certs directory
+  synchronize:
+    src: "artifacts/certs/"
+    dest: "{{ bahmni_cert_dir }}"
+
+- name: Synchronize the misc files
+  synchronize:
+    src: "artifacts/misc/{{ item }}"
+    dest: "/tmp/{{ item }}"
+    copy_links: yes
+    checksum: yes
+  with_items:
+    - bahmniapps.zip
+    - bahmnicore-omod-0.90-SNAPSHOT.omod
+    - bahmni-lab-90.noarch.rpm
+    - initializer-1.0.1-SNAPSHOT.omod
+
+- name: Synchronize the default setup file
+  template:
+    src: "artifacts/default-setup.j2"
+    dest: "/etc/bahmni-installer/setup.yml"
+
+- name: Synchronize the inventory file
+  synchronize:
+    src: local_active
+    dest: /etc/bahmni-installer/local
+    copy_links: yes
+    checksum: yes
+
+- name: Create directories for deployment artifacts
+  file:
+    path: "/etc/bahmni-installer/deployment-artifacts/"
+    recurse: yes
+    state: directory
+
+- name: Copy the OpenMRS SQL dump
+  synchronize:
+    src: artifacts/sql/openmrs_backup.sql
+    dest: "/etc/bahmni-installer/deployment-artifacts/openmrs_backup.sql"
+    copy_links: yes
+    checksum: yes
+
+- name: Copy the OpenELIS SQL dump
+  synchronize:
+    src: artifacts/sql/openelis_backup.sql
+    dest: "/etc/bahmni-installer/deployment-artifacts/openelis_backup.sql"
+    copy_links: yes
+    checksum: yes
+
+- name: Copy the Bahmni config
+  synchronize:
+    src: artifacts/bahmni_config/
+    dest: "/etc/bahmni-installer/deployment-artifacts/{{ bahmni_implementation_name }}_config"
+    rsync_opts:
+      - "--exclude=.git/"
+    copy_links: yes
+    checksum: yes
+
+- name: Copy the Bahmni playbooks
+  synchronize:
+    src: artifacts/bahmni-playbooks/
+    dest: "/opt/bahmni-installer/bahmni-playbooks"
+    delete: no
+    rsync_opts:
+      - "--exclude=.git/"
+    copy_links: yes
+    checksum: yes
+

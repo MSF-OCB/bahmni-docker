@@ -1,0 +1,17 @@
+---
+
+# https://stackoverflow.com/questions/26279207/installing-pip-using-easy-install
+- name: Fix pypi.python.org url for easy_install
+  replace:
+    path: /usr/lib/python2.6/site-packages/setuptools/command/easy_install.py
+    regexp: "http://pypi.python.org"
+    replace: "https://pypi.python.org"
+
+- name: Upgrade pip
+  pip:
+    name: pip
+    state: latest
+
+- name: Run ez_setup
+  command: python /tmp/ansible/artifacts/python/ez_setup.py --user
+

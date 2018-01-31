@@ -1,11 +1,36 @@
-version: '3'
+version: '3.3'
+
 services:
+
   bahmni:
     build:
-      context: .
+      context: bahmni
       dockerfile: Dockerfile
     container_name: bahmni-main
+    volumes:
+      - type: volume
+        source: mysql_data
+        target: /var/lib/mysql
+      - type: volume
+        source: pgsql_data
+        target: /var/lib/pgsql
+      - type: volume
+        source: openmrs_lucene
+        target: /opt/openmrs/lucene
+      - type: volume
+        source: bahmni_home
+        target: /home/bahmni
+      - type: volume
+        source: var_log_bahmni
+        target: /var/log
     ports:
-      - "443:443"
+      - "20443:443"
     restart: always
+
+volumes:
+  mysql_data:
+  pgsql_data:
+  openmrs_lucene:
+  bahmni_home:
+  var_log_bahmni:
 

@@ -1,0 +1,16 @@
+---
+
+- name: "Start {{ item }} service"
+  service:
+    name: "{{ item }}"
+    state: started
+  with_items:
+    - ntpd
+    - mysqld
+    - postgresql-9.2
+    - atomfeed-console
+    - openmrs
+    - bahmni-lab
+    - bahmni-reports
+    - httpd
+
