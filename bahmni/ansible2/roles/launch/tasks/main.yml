@@ -1,6 +1,6 @@
 ---
 
-- name: "Start {{ item }} service"
+- name: "Start services"
   service:
     name: "{{ item }}"
     state: started
