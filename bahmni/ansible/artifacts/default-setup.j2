@@ -8,4 +8,5 @@ SSLCertificateKeyFilePath: {{ bahmni_cert_dir }}/{{ bahmni_cert_key }}
 SSLCertificateChainFilePath: {{ bahmni_cert_dir }}/{{ bahmni_cert_chain }}
 selinux_state: disabled
 docker: yes
+openmrs_server_options: "-Xms2048m -Xmx4096m -XX:+UseG1GC -XX:+UseStringDeduplication"
 
