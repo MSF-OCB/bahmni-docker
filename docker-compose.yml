@@ -24,7 +24,9 @@ services:
         source: var_log_bahmni
         target: /var/log
     ports:
-      - "20443:443"
+      - "443:443"
+      - "80:80"
+      - "3306:3306" # Mysql repl
     restart: always
 
 volumes:
