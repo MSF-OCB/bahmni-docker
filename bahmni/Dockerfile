@@ -27,14 +27,25 @@ RUN yum install -y \
     ansible-playbook -v bahmni_install.yml && \
     bahmni -i local --ansible_rpm_url "/ansible-2.4.2.0-1.el6.noarch" install && \
     bahmni -i local --ansible_rpm_url "/ansible-2.4.2.0-1.el6.noarch" --implementation_play=/var/www/bahmni_config/playbooks/all.yml install-impl && \
-    rm -rf /tmp/ansible/artifacts && \
-    rm -rf /tmp/ansible/variables.yml && \
-    rm -rf /var/log/* \
+    service openmrs stop && \
+    service bahmni-reports stop && \
+    service bahmni-lab stop && \
+    service mysqld stop && \
+    service httpd stop && \
+    service postgresql-9.2 stop && \
+    service atomfeed-console stop && \
+    rm -rf /tmp/ansible/* && \
+    rm -rf /var/log/* && \
+    rm -rf /tmp/*.{zip,rpm,omod,log} && \
+    rm -rf /opt/*.rpm && \
+    rm -rf /{bahmni_tmp,selinux,srv,media} && \
+    rm -rf /var/cache/yum && \
+    mkdir -p /var/log/httpd && \
     yum clean all
 
 COPY ansible2 /tmp/ansible2
 
 WORKDIR /tmp/ansible2
 
-CMD ansible-playbook -v bahmni_launch.yml && tail -f /var/log/openmrs/openmrs.log
+CMD ansible-playbook -v bahmni_launch.yml && bahmni -i local --ansible_rpm_url "/ansible-2.4.2.0-1.el6.noarch" update-config && tail -f /var/log/openmrs/openmrs.log
 
