@@ -27,6 +27,7 @@ services:
       - "443:443"
       - "80:80"
       - "3306:3306" # Mysql repl
+      - "5432:5432" # PostgreSQL repl
     restart: always
 
 volumes:
