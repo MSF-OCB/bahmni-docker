@@ -1,5 +1,5 @@
 ---
 - nestor_username:
 - nestor_password:
-- mysql_password: password
+- mysql_password:
 

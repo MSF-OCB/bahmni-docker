@@ -1,0 +1,9 @@
+---
+- bahmni_backup_dir: '/bahmni_backup'
+- bahmni_cert_dir: /etc/bahmni_certs
+- bahmni_cert: bahmni.msf.org2017.crt
+- bahmni_cert_key: bahmni.msf.org2017.key
+- bahmni_cert_chain: bahmni.msf.org2017-bundle.ca-bundle
+- bahmni_java_gc_opts: "-XX:+UseG1GC -XX:+UseStringDeduplication"
+- mysql_user: root
+
