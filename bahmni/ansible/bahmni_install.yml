@@ -1,10 +1,13 @@
 ---
 
-- hosts: 127.0.0.1
+- hosts: localhost
   connection: local
   vars_files:
     - variables.yml
+    - variables_private.yml
+    - "variables_{{ lookup('env', 'impl_file_suffix') }}.yml"
   roles:
     - fix_python
     - setup_installer
+    - backup_config
 

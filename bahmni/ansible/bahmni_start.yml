@@ -1,0 +1,12 @@
+---
+
+- hosts: localhost
+  connection: local
+  vars_files:
+    - variables.yml
+    - variables_private.yml
+    - "variables_{{ lookup('env', 'impl_file_suffix') }}.yml"
+  roles:
+    - { role: manage_services, state: started }
+    - reset_search_index
+

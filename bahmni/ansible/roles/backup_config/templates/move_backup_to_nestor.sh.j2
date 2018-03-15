@@ -1,0 +1,7 @@
+#!/bin/bash
+
+BACKUP_DIR="{{ bahmni_backup_dir }}/backups"
+NESTOR_BACKUP_DIR="/volume1/Backups/bahmni/backups"
+
+rsync -e "ssh -i /home/msfocb/.ssh/id_rsa" -avz --omit-dir-times --delete ${BACKUP_DIR}/ root@nestor:"${NESTOR_BACKUP_DIR}/bahmni/"
+

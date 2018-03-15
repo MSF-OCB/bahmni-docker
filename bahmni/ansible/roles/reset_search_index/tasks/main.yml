@@ -1,0 +1,6 @@
+---
+
+- name: Reset search OpenMRS search index
+  shell: "mysql -uroot -p{{ mysql_root_password }} -e \"update global_property set property_value = '' where property = 'search.indexVersion';\" openmrs"
+  ignore_errors: true
+

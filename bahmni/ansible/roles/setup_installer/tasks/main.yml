@@ -7,69 +7,91 @@
 
 - name: Synchronize the certs directory
   synchronize:
-    src: "artifacts/certs/"
+    src: "/tmp/artifacts/certs/"
     dest: "{{ bahmni_cert_dir }}"
 
 - name: Synchronize the misc files
   synchronize:
-    src: "artifacts/misc/{{ item }}"
+    src: "/tmp/artifacts/misc/{{ item }}"
     dest: "/tmp/{{ item }}"
     copy_links: yes
     checksum: yes
   with_items:
     - bahmniapps.zip
-    - bahmnicore-omod-0.90-SNAPSHOT.omod
+    - bahmnicore-0.90-SNAPSHOT.omod
     - bahmni-lab-90.noarch.rpm
     - initializer-1.0.1-SNAPSHOT.omod
+    - bahmnireports.war
 
 - name: Synchronize the default setup file
   template:
-    src: "artifacts/default-setup.j2"
+    src: "default-setup.j2"
     dest: "/etc/bahmni-installer/setup.yml"
 
 - name: Synchronize the inventory file
-  synchronize:
-    src: local_active
+  copy:
+    src: /inventory
     dest: /etc/bahmni-installer/local
-    copy_links: yes
-    checksum: yes
 
-- name: Create directories for deployment artifacts
+- name: Create directory for deployment artifacts
   file:
     path: "/etc/bahmni-installer/deployment-artifacts/"
     recurse: yes
     state: directory
 
+- name: Clone the Bahmni config
+  git:
+    repo: "https://github.com/OCB-MSF/ocb-config.git"
+    dest: "/etc/bahmni-installer/deployment-artifacts/{{ bahmni_implementation_name }}_config"
+    clone: yes
+    update: yes
+    version: "{{ bahmni_implementation_branch }}"
+    depth: 1
+    force: yes
+
+- name: Delete Git info from Bahmni config
+  file:
+    path: "/etc/bahmni-installer/deployment-artifacts/{{ bahmni_implementation_name }}_config/.git"
+    state: absent
+
+#  synchronize:
+#    src: "/tmp/artifacts/bahmni_config/"
+#    dest: "/etc/bahmni-installer/deployment-artifacts/{{ bahmni_implementation_name }}_config"
+#    rsync_opts:
+#      - "--exclude=.git/"
+#    copy_links: yes
+#    checksum: yes
+
 - name: Copy the OpenMRS SQL dump
   synchronize:
-    src: artifacts/sql/openmrs_backup.sql
+    src: "/etc/bahmni-installer/deployment-artifacts/{{ bahmni_implementation_name }}_config/db_dumps/openmrs_backup.sql"
     dest: "/etc/bahmni-installer/deployment-artifacts/openmrs_backup.sql"
     copy_links: yes
     checksum: yes
+  when: copy_sql_dump|default(true)|bool
 
 - name: Copy the OpenELIS SQL dump
   synchronize:
-    src: artifacts/sql/openelis_backup.sql
+    src: "/etc/bahmni-installer/deployment-artifacts/{{ bahmni_implementation_name }}_config/db_dumps/openelis_backup.sql"
     dest: "/etc/bahmni-installer/deployment-artifacts/openelis_backup.sql"
     copy_links: yes
     checksum: yes
-
-- name: Copy the Bahmni config
-  synchronize:
-    src: artifacts/bahmni_config/
-    dest: "/etc/bahmni-installer/deployment-artifacts/{{ bahmni_implementation_name }}_config"
-    rsync_opts:
-      - "--exclude=.git/"
-    copy_links: yes
-    checksum: yes
+  when: copy_sql_dump|default(true)|bool
 
 - name: Copy the Bahmni playbooks
   synchronize:
-    src: artifacts/bahmni-playbooks/
+    src: "/tmp/artifacts/bahmni-playbooks/"
     dest: "/opt/bahmni-installer/bahmni-playbooks"
     delete: no
     rsync_opts:
       - "--exclude=.git/"
     copy_links: yes
     checksum: yes
+
+# https://github.com/Bahmni/bahmni-playbooks/pull/6
+- name: Remove ProxyPreserveHost directive
+  lineinfile:
+    path: "/opt/bahmni-installer/bahmni-playbooks/roles/bahmni-web/templates/ssl.conf.j2"
+    regexp: "ProxyPreserveHost On"
+    state: absent
 

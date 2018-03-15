@@ -2,38 +2,110 @@ version: '3.3'
 
 services:
 
-  bahmni:
+  maadi:
     build:
       context: bahmni
       dockerfile: Dockerfile
-    container_name: bahmni-main
+      args:
+        - impl_file_suffix=maadi
+    container_name: maadi
+    tmpfs: /tmp
     volumes:
       - type: volume
-        source: mysql_data
+        source: maadi_bahmni_backup
+        target: /bahmni_backup/backups
+      - type: volume
+        source: maadi_mysql_data
         target: /var/lib/mysql
       - type: volume
-        source: pgsql_data
+        source: maadi_pgsql_data
         target: /var/lib/pgsql
       - type: volume
-        source: openmrs_lucene
+        source: maadi_openmrs_lucene
         target: /opt/openmrs/lucene
       - type: volume
-        source: bahmni_home
+        source: maadi_bahmni_home
         target: /home/bahmni
       - type: volume
-        source: var_log_bahmni
+        source: maadi_var_log_bahmni
         target: /var/log
+    env_file: .env
+    # https://vsupalov.com/docker-build-time-env-values/
+    environment:
+      - impl_file_suffix=maadi
+    ports:
+      - "10443:443"
+      - "10080:80"
+      #- "13306:3306" # Mysql repl
+      #- "15432:5432" # PostgreSQL repl
+    restart: always
+
+  chk:
+    build:
+      context: bahmni
+      dockerfile: Dockerfile
+      args:
+        - impl_file_suffix=chk
+    container_name: bahmni-main
+    tmpfs: /tmp
+    volumes:
+      - type: volume
+        source: chk_bahmni_backup
+        target: /bahmni_backup/backups
+      - type: volume
+        source: chk_mysql_data
+        target: /var/lib/mysql
+      - type: volume
+        source: chk_pgsql_data
+        target: /var/lib/pgsql
+      - type: volume
+        source: chk_openmrs_lucene
+        target: /opt/openmrs/lucene
+      - type: volume
+        source: chk_bahmni_home
+        target: /home/bahmni
+      - type: volume
+        source: chk_var_log_bahmni
+        target: /var/log
+    env_file: .env
+    # https://vsupalov.com/docker-build-time-env-values/
+    environment:
+      - impl_file_suffix=chk
     ports:
       - "443:443"
       - "80:80"
-      - "3306:3306" # Mysql repl
-      - "5432:5432" # PostgreSQL repl
+      - "13306:3306" # Mysql repl
+      - "15432:5432" # PostgreSQL repl
+    restart: always
+
+  chk_ephe:
+    build:
+      context: bahmni
+      dockerfile: Dockerfile
+      args:
+        - impl_file_suffix=chk
+    container_name: bahmni-chk_ephe
+    tmpfs: /tmp
+    env_file: .env
+    # https://vsupalov.com/docker-build-time-env-values/
+    environment:
+      - impl_file_suffix=chk
+    ports:
+      - "11443:443"
+      - "11080:80"
     restart: always
 
 volumes:
-  mysql_data:
-  pgsql_data:
-  openmrs_lucene:
-  bahmni_home:
-  var_log_bahmni:
+  maadi_bahmni_backup:
+  maadi_mysql_data:
+  maadi_pgsql_data:
+  maadi_openmrs_lucene:
+  maadi_bahmni_home:
+  maadi_var_log_bahmni:
+  chk_bahmni_backup:
+  chk_mysql_data:
+  chk_pgsql_data:
+  chk_openmrs_lucene:
+  chk_bahmni_home:
+  chk_var_log_bahmni:
 

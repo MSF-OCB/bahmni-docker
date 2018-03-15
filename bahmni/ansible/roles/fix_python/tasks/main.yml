@@ -13,5 +13,7 @@
     state: latest
 
 - name: Run ez_setup
-  command: python /tmp/ansible/artifacts/python/ez_setup.py --user
+  command: "python {{ role_path }}/files/ez_setup.py --user"
+  args:
+    chdir: /tmp
 

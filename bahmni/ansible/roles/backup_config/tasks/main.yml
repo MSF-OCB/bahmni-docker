@@ -2,47 +2,69 @@
 
 - name: Create /bahmni_backup dir
   file:
-    path: "{{ bahmni_backup_dir }}"
+    path: "{{ bahmni_backup_dir }}/backups"
     recurse: yes
     state: directory
     mode: "u=rwx,g=rwx,o=rwx"
 
-- name: Create bahmni backup encryption password file
-  copy:
-    content: "{{ bahmni_backup_enc_password }}"
-    dest: "{{ bahmni_backup_enc_password_file }}"
-    owner: root
-    group: root
-    mode: "770"
-
 - name: Synchronize the backup scripts
   template:
-    src: "sources/backup_scripts/{{ item }}.j2"
-    dest: "{{ bahmni_backup_dir }}/{{ item }}.sh"
+    src: "{{ item }}.j2"
+    dest: "{{ bahmni_backup_dir }}/{{ item }}"
     owner: root
     group: root
     mode: "0700"
   with_items:
-    - backup
-    - move_backup_to_passive
-    - move_backup_to_nestor
+    - backup.sh
+    - move_backup_to_passive.sh
+    - move_backup_to_nestor.sh
+
+- name: Start cron service
+  service:
+    name: crond
+    state: started
 
 # Backup to passive every day every three hours at the hour (00 */3)
-- name: Configure backup cronjob
+- name: Configure local backup cronjob
   cron:
-    name: backup
+    name: local backup
     hour: "*/3"
     minute: "00"
     weekday: "1,2,3,4,5,6,0"
-    job: "{{ bahmni_backup_dir }}/backup.sh 2>&1 | tee {{ bahmni_backup_dir }}/last.log > /dev/null && {{ bahmni_backup_dir }}/move_backup_to_passive.sh 2>&1 | tee -a {{ bahmni_backup_dir }}/last.log > /dev/null"
+    job: "{{ bahmni_backup_dir }}/backup.sh 2>&1 | tee {{ bahmni_backup_dir }}/last.log > /dev/null"
   when: active
 
+# Backup to passive every day every three hours at the half hour (30 */3)
+- name: Configure passive backup cronjob
+  cron:
+    name: passive backup
+    hour: "*/3"
+    minute: "30"
+    weekday: "1,2,3,4,5,6,0"
+    job: "{{ bahmni_backup_dir }}/move_backup_to_passive.sh 2>&1 | tee -a {{ bahmni_backup_dir }}/last.log > /dev/null"
+  when:
+    - active
+    - passive_backup|default(false)|bool
+
+# Backup to nestor every day every three hours at the half hour (30 */3)
+- name: Configure nestor backup cronjob
+  cron:
+    name: nestor backup
+    hour: "*/3"
+    minute: "30"
+    weekday: "1,2,3,4,5,6,0"
+    job: "{{ bahmni_backup_dir }}/move_backup_to_nestor.sh 2>&1 | tee -a {{ bahmni_backup_dir }}/last.log > /dev/null"
+  when:
+    - active
+    - nestor_backup|default(false)|bool
+
+# Cleanup old backups daily at 4 in the night (0 4)
 - name: Configure backup cleanup cronjob
   cron:
-    name: backup_clean
-    hour: "20"
+    name: backup cleanup
+    hour: "4"
     minute: "0"
-    weekday: "1,2,3,4,5"
+    weekday: "1,2,3,4,5,6,0"
     job: "/bin/find {{ bahmni_backup_dir }}/backups/ -mtime +30 -exec rm -rf {} \\; > /dev/null 2>&1"
   when: active
 
