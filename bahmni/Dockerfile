@@ -25,5 +25,6 @@ RUN bash -e /tmp/install.sh
 
 COPY start.sh /
 
-CMD bash -e /start.sh && tail -f /var/log/openmrs/openmrs.log
+# https://vsupalov.com/docker-build-time-env-values/
+ENV impl_file_suffix=$impl_file_suffix
 
