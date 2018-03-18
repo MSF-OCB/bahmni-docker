@@ -1,0 +1,53 @@
+version: '3.3'
+
+services:
+
+  bahmni:
+    build:
+      context: bahmni
+      dockerfile: Dockerfile
+      args:
+        - impl_file_suffix=
+    hostname:
+    container_name:
+    tmpfs: /tmp
+    env_file:
+      - .env
+    command: "bash -e /start.sh $mode"
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+      - "3306:3306" # Mysql repl
+      - "5432:5432" # PostgreSQL repl
+    volumes:
+      - type: volume
+        source: bahmni_backup
+        target: /bahmni_backup/backups
+      - type: volume
+        source: mysql_data
+        target: /var/lib/mysql
+      - type: volume
+        source: pgsql_data
+        target: /var/lib/pgsql
+      - type: volume
+        source: openmrs_lucene
+        target: /opt/openmrs/lucene
+      - type: volume
+        source: bahmni_home
+        target: /home/bahmni
+      - type: volume
+        source: var_log_bahmni
+        target: /var/log
+      - type: bind
+        source: $bahmni_enc_file_path
+        target: $bahmni_enc_file_path
+
+volumes:
+  bahmni_backup:
+  mysql_data:
+  pgsql_data:
+  openmrs_lucene:
+  bahmni_home:
+  var_log_bahmni:
+
