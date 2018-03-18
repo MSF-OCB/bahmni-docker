@@ -10,21 +10,31 @@ function restart_openmrs_delayed() {
 ansible-playbook -i ${INVENTORY} /ansible/bahmni_start.yml
 
 case $1 in
-active)
+"active")
   ${BAHMNI} start
   #${BAHMNI} update-config
-  ${BAHMNI} setup-mysql-replication
-  ${BAHMNI} setup-postgresql-replication
+
+  case $2 in
+  "true" | "True" | "yes" | "Yes")
+    ${BAHMNI} setup-mysql-replication
+    ${BAHMNI} setup-postgresql-replication
+    ;;
+  "false" | "False" | "no" | "No")
+    ;;
+  *)
+    echo "Accepted values for second parameter: true, True, yes, Yes, false, False, no, No. "
+    exit 1
+  esac
 
   restart_openmrs_delayed &
 
   tail -F /var/log/openmrs/openmrs.log /var/log/bahmni-lab/bahmni-lab.log /var/log/bahmni-reports/bahmni-reports.log
   ;;
-passive)
+"passive")
   tail -F /var/log/mysqld.log
   ;;
 *)
-  echo 'Use "active" or "passive" as parameter.'
+  echo 'Use "active" or "passive" as first argument.'
   exit 1
 
 esac

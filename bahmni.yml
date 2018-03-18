@@ -8,12 +8,12 @@ services:
       dockerfile: Dockerfile
       args:
         - impl_file_suffix=
-    hostname:
-    container_name:
+    hostname: bahmni_impl
+    container_name: bahmni_impl
     tmpfs: /tmp
     env_file:
       - .env
-    command: "bash -e /start.sh $mode"
+    command: "bash -e /start.sh $mode $setup_replication"
     restart: always
     ports:
       - "80:80"
