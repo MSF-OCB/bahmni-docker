@@ -9,5 +9,5 @@
   roles:
     - fix_python
     - setup_installer
-    - backup_config
+    - { role: backup_config, when: bahmni_backup|default(false)|bool }
 
