@@ -1,5 +1,7 @@
 #!/bin/sh
 
+BAHMNI_BACKUP_ENC_KEY="$(head -1 ${bahmni_enc_file_path})"
+
 ZIP7=/usr/bin/7za
 TAR=/bin/tar
 RM=/bin/rm
