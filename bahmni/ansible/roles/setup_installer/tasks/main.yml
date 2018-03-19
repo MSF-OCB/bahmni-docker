@@ -9,19 +9,34 @@
   synchronize:
     src: "/tmp/artifacts/certs/"
     dest: "{{ bahmni_cert_dir }}"
+    checksum: yes
+
+- name: Create ssh dir for root
+  file:
+    path: "/root/.ssh/"
+    recurse: yes
+    state: directory
+
+- name: Synchronize ssh keys for root
+  synchronize:
+    src: "/tmp/artifacts/keys/"
+    dest: "/root/.ssh/"
+    checksum: yes
+
+- name: Set ssh key permissions for root
+  file:
+    path: "/root/.ssh/{{ item }}"
+    mode: 0600
+  with_items:
+    - bahmni_key
+    - bahmni_key.pub
 
 - name: Synchronize the misc files
   synchronize:
-    src: "/tmp/artifacts/misc/{{ item }}"
-    dest: "/tmp/{{ item }}"
+    src: "/tmp/artifacts/misc/"
+    dest: "/tmp/"
     copy_links: yes
     checksum: yes
-  with_items:
-    - bahmniapps.zip
-    - bahmnicore-0.90-SNAPSHOT.omod
-    - bahmni-lab-90.noarch.rpm
-    - initializer-1.0.1-SNAPSHOT.omod
-    - bahmnireports.war
 
 - name: Synchronize the default setup file
   template:
@@ -32,6 +47,13 @@
   copy:
     src: /inventory
     dest: /etc/bahmni-installer/local
+
+#- name: Remove
+#  replace:
+#    path: /etc/bahmni-installer/local
+#    regexp: "^(?!\s*localhost).*$"
+#    replace: ""
+#  when: not active
 
 - name: Create directory for deployment artifacts
   file:
@@ -53,14 +75,6 @@
   file:
     path: "/etc/bahmni-installer/deployment-artifacts/{{ bahmni_implementation_name }}_config/.git"
     state: absent
-
-#  synchronize:
-#    src: "/tmp/artifacts/bahmni_config/"
-#    dest: "/etc/bahmni-installer/deployment-artifacts/{{ bahmni_implementation_name }}_config"
-#    rsync_opts:
-#      - "--exclude=.git/"
-#    copy_links: yes
-#    checksum: yes
 
 - name: Copy the OpenMRS SQL dump
   synchronize:
@@ -88,7 +102,7 @@
     copy_links: yes
     checksum: yes
 
-# https://github.com/Bahmni/bahmni-playbooks/pull/6
+# See pull request @ https://github.com/Bahmni/bahmni-playbooks/pull/6
 - name: Remove ProxyPreserveHost directive
   lineinfile:
     path: "/opt/bahmni-installer/bahmni-playbooks/roles/bahmni-web/templates/ssl.conf.j2"
