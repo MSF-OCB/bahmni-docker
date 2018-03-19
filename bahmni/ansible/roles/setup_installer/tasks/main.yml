@@ -35,6 +35,7 @@
   synchronize:
     src: "/tmp/artifacts/misc/"
     dest: "/tmp/"
+    perms: no  # Don't change perms of /tmp
     copy_links: yes
     checksum: yes
 
