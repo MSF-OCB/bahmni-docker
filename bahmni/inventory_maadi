@@ -1,4 +1,4 @@
-localhost ansible_connection=local active=true passive_backup=false nestor_backup=false
+localhost ansible_connection=local active=true bahmni_backup=true passive_backup=false nestor_backup=false
 
 [bahmni-emr]
 localhost
