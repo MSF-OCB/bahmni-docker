@@ -28,7 +28,7 @@ git clone -b docker-dev https://github.com/MSF-OCB/bahmni-playbooks /opt/bahmni/
 ```
 or
 ```
-git clone git@github.com:MSF-OCB/bahmni-playbooks.git /opt/bahmni/bahmni/artifacts/bahmni-playbooks
+git clone -b docker-dev git@github.com:MSF-OCB/bahmni-playbooks.git /opt/bahmni/bahmni/artifacts/bahmni-playbooks
 ```
 
 
