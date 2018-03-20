@@ -49,13 +49,6 @@
     src: /inventory
     dest: /etc/bahmni-installer/local
 
-#- name: Remove
-#  replace:
-#    path: /etc/bahmni-installer/local
-#    regexp: "^(?!\s*localhost).*$"
-#    replace: ""
-#  when: not active
-
 - name: Create directory for deployment artifacts
   file:
     path: "/etc/bahmni-installer/deployment-artifacts/"
