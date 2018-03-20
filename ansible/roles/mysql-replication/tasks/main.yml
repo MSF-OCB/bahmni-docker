@@ -1,11 +1,16 @@
 ---
 
-- name: Copy mysql config
+- name: Copy MySQL config
   template:
     src: templates/my.cnf.j2
     dest: /etc/my.cnf
     backup: yes
     mode: 0644
+
+- name: Restart MySQL
+  service:
+    name: mysqld
+    state: restarted
 
 - name: stop replication
   mysql_replication:
