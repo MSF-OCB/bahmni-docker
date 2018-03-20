@@ -5,6 +5,11 @@
     name: "https://dl.bintray.com/bahmni/rpm/rpms/bahmni-installer-0.90-291.noarch.rpm"
     state: present
 
+- name: Copy the MSF logo
+  copy:
+    src: msf_logo.png
+    dest: /msf_logo.png
+
 - name: Synchronize the certs directory
   synchronize:
     src: "/tmp/artifacts/certs/"
