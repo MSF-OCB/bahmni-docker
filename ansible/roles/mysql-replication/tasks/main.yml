@@ -24,7 +24,7 @@
   mysql_replication:
     mode: stopslave
     login_user: "root"
-    login_password: "{{ mysql_password }}"
+    login_password: "{{ mysql_root_password }}"
   ignore_errors: true
 
 - block:
@@ -34,7 +34,7 @@
       password: "{{ mysql_replication_password }}"
       host: "{{ passive_host }}"
       login_user: "root"
-      login_password: "{{ mysql_password }}"
+      login_password: "{{ mysql_root_password }}"
       priv: "*.*:ALL,GRANT"
       state: present
   when: server_mode == "active"
@@ -50,7 +50,7 @@
       name: all
       target: "/tmp/mysql_dump_master.sql"
       login_user: "root"
-      login_password: "{{ mysql_password }}"
+      login_password: "{{ mysql_root_password }}"
 
   - name: Delete dump
     file:
@@ -61,7 +61,7 @@
     mysql_replication:
       mode: getmaster
       login_user: "root"
-      login_password: "{{ mysql_password }}"
+      login_password: "{{ mysql_root_password }}"
       login_host: "{{ active_host }}"
     register: repl_stat
 
@@ -72,7 +72,7 @@
       master_user: "{{ mysql_replication_username }}"
       master_password: "{{ mysql_replication_password }}"
       login_user: "root"
-      login_password: "{{ mysql_password }}"
+      login_password: "{{ mysql_root_password }}"
       master_log_file: "{{ repl_stat.File }}"
       master_log_pos: "{{ repl_stat.Position }}"
 
@@ -80,7 +80,7 @@
     mysql_replication:
       mode: startslave
       login_user: "root"
-      login_password: "{{ mysql_password }}"
+      login_password: "{{ mysql_root_password }}"
 
   when: server_mode == "passive"
 
