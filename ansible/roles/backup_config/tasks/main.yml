@@ -24,7 +24,7 @@
     name: crond
     state: started
 
-# Backup to passive every day every three hours at the hour (00 */3)
+# Backup locally every day every three hours at the hour (00 */3)
 - name: Configure local backup cronjob
   cron:
     name: local backup
@@ -32,7 +32,6 @@
     minute: "00"
     weekday: "1,2,3,4,5,6,0"
     job: "{{ bahmni_backup_dir }}/backup.sh 2>&1 | tee {{ bahmni_backup_dir }}/last.log > /dev/null"
-  when: active
 
 # Backup to passive every day every three hours at the half hour (30 */3)
 - name: Configure passive backup cronjob
@@ -42,9 +41,7 @@
     minute: "30"
     weekday: "1,2,3,4,5,6,0"
     job: "{{ bahmni_backup_dir }}/move_backup_to_passive.sh 2>&1 | tee -a {{ bahmni_backup_dir }}/last.log > /dev/null"
-  when:
-    - active
-    - passive_backup|default(false)|bool
+  when: passive_backup|default(false)|bool
 
 # Backup to nestor every day every three hours at the half hour (30 */3)
 - name: Configure nestor backup cronjob
@@ -54,9 +51,7 @@
     minute: "30"
     weekday: "1,2,3,4,5,6,0"
     job: "{{ bahmni_backup_dir }}/move_backup_to_nestor.sh 2>&1 | tee -a {{ bahmni_backup_dir }}/last.log > /dev/null"
-  when:
-    - active
-    - nestor_backup|default(false)|bool
+  when: nestor_backup|default(false)|bool
 
 # Cleanup old backups daily at 4 in the night (0 4)
 - name: Configure backup cleanup cronjob
@@ -66,5 +61,4 @@
     minute: "0"
     weekday: "1,2,3,4,5,6,0"
     job: "/bin/find {{ bahmni_backup_dir }}/backups/ -mtime +30 -exec rm -rf {} \\; > /dev/null 2>&1"
-  when: active
 

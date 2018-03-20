@@ -1,5 +1,10 @@
 #!/bin/bash
 
+if [ "${BAHMNI_SERVER_MODE}" != "active" ]; then
+  echo "Skipping backup, mode ${BAHMNI_SERVER_MODE} is not equal to active."
+  exit 0
+fi
+
 BACKUP_DIR="{{ bahmni_backup_dir }}/backups"
 
 rsync -e "ssh -i /home/msfocb/.ssh/id_rsa" -avz --omit-dir-times --delete ${BACKUP_DIR}/ msfocb@bahmni-passive:${BACKUP_DIR}/

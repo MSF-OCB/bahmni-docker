@@ -1,5 +1,10 @@
 #!/bin/sh
 
+if [ "${BAHMNI_SERVER_MODE}" != "active" ]; then
+  echo "Skipping backup, mode ${BAHMNI_SERVER_MODE} is not equal to active."
+  exit 0
+fi
+
 BAHMNI_BACKUP_ENC_KEY="$(head -1 ${bahmni_enc_file_path})"
 
 ZIP7=/usr/bin/7za
