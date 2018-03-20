@@ -15,11 +15,7 @@ case $1 in
   #${BAHMNI} update-config
 
   case $2 in
-  "true" | "True" | "yes" | "Yes")
-    ${BAHMNI} setup-mysql-replication
-    ${BAHMNI} setup-postgresql-replication
-    ;;
-  "false" | "False" | "no" | "No")
+  "true" | "True" | "yes" | "Yes" | "false" | "False" | "no" | "No")
     ;;
   *)
     echo "Accepted values for second parameter: true, True, yes, Yes, false, False, no, No. "
