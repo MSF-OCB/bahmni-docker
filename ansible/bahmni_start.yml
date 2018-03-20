@@ -13,6 +13,6 @@
     #- "variables_{{ lookup('env', 'impl_file_suffix') }}.yml"
   roles:
     - { role: manage_services, state: started }
-    - mysql-replication
+    - { role: mysql-replication, when: setup_replication|bool }
     - reset_search_index
 
