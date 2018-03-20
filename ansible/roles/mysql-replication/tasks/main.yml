@@ -60,8 +60,8 @@
   - name: get the current master server's replication status
     mysql_replication:
       mode: getmaster
-      login_user: "root"
-      login_password: "{{ mysql_root_password }}"
+      login_user: "{{ mysql_replication_username }}"
+      login_password: "{{ mysql_replication_password }}"
       login_host: "{{ active_host }}"
     register: repl_stat
 
