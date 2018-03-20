@@ -18,7 +18,7 @@ collation-server=utf8_general_ci
 max_connections=150
 
 # For replication
-{% if ( {{ setup_replication|bool }} and {{ server_mode }} == 'active' ) %}
+{% if ( setup_replication|bool and server_mode == 'active' ) %}
 server-id = {{ master_server_id }}
 log-bin = {{ log_bin_file_name }}
 log-bin-index = {{ log_bin_index_file_name }}
@@ -28,7 +28,7 @@ innodb_flush_log_at_trx_commit = {{ innodb_flush_log_at_trx_commit }}
 sync_binlog = {{ sync_binlog }}
 {% endif %}
 
-{% if ( {{ setup_replication|bool }} and {{ server_mode }} == 'passive' ) %}
+{% if ( setup_replication|bool and server_mode == 'passive' ) %}
 server-id = {{ slave_server_id }}
 read_only
 {% endif %}
