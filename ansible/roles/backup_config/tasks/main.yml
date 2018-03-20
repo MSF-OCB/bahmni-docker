@@ -41,7 +41,6 @@
     minute: "30"
     weekday: "1,2,3,4,5,6,0"
     job: "{{ bahmni_backup_dir }}/move_backup_to_passive.sh 2>&1 | tee -a {{ bahmni_backup_dir }}/last.log > /dev/null"
-  when: passive_backup|default(false)|bool
 
 # Backup to nestor every day every three hours at the half hour (30 */3)
 - name: Configure nestor backup cronjob
@@ -51,7 +50,6 @@
     minute: "30"
     weekday: "1,2,3,4,5,6,0"
     job: "{{ bahmni_backup_dir }}/move_backup_to_nestor.sh 2>&1 | tee -a {{ bahmni_backup_dir }}/last.log > /dev/null"
-  when: nestor_backup|default(false)|bool
 
 # Cleanup old backups daily at 4 in the night (0 4)
 - name: Configure backup cleanup cronjob
