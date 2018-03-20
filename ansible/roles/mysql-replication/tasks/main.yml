@@ -1,0 +1,66 @@
+---
+
+- name: stop replication
+  mysql_replication:
+    mode: stopslave
+    login_user: "root"
+    login_password: "{{ mysql_password }}"
+  ignore_errors: true
+
+- block:
+  - name: Create and grant privileges to replication user of slave in master DB
+    mysql_user:
+      name: "{{ mysql_replication_username }}"
+      password: "{{ mysql_replication_password }}"
+      host: "{{ passive_host }}"
+      login_user: "root"
+      login_password: "{{ mysql_password }}"
+      priv: "*.*:ALL,GRANT"
+      state: present
+  when: server_mode == "active"
+
+- block:
+
+  - name: Make dump from active
+    command: "mysqldump -h{{ active_host }} -u{{ mysql_replication_username }} -p{{ mysql_replication_password }} --default-character-set=utf8 --add-drop-database --all-databases --routines --single-transaction --quick --add-locks --disable-keys --extended-insert -r /tmp/mysql_dump_master.sql"
+
+  - name: Import dump from active
+    mysql_db:
+      state: import
+      name: all
+      target: "/tmp/mysql_dump_master.sql"
+      login_user: "root"
+      login_password: "{{ mysql_password }}"
+
+  - name: Delete dump
+    file:
+      path: "/tmp/mysql_dump_master.sql"
+      state: absent
+
+  - name: get the current master server's replication status
+    mysql_replication:
+      mode: getmaster
+      login_user: "root"
+      login_password: "{{ mysql_password }}"
+      login_host: "{{ active_host }}"
+    register: repl_stat
+
+  - name: change master parameters on slave to start the replication
+    mysql_replication:
+      mode: changemaster
+      master_host: "{{ active_host }}"
+      master_user: "{{ mysql_replication_username }}"
+      master_password: "{{ mysql_replication_password }}"
+      login_user: "root"
+      login_password: "{{ mysql_password }}"
+      master_log_file: "{{ repl_stat.File }}"
+      master_log_pos: "{{ repl_stat.Position }}"
+
+  - name: start replication
+    mysql_replication:
+      mode: startslave
+      login_user: "root"
+      login_password: "{{ mysql_password }}"
+
+  when: server_mode == "passive"
+

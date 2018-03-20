@@ -2,6 +2,11 @@
 
 - hosts: localhost
   connection: local
+  vars:
+    server_mode: "{{ lookup('env', 'BAHMNI_SERVER_MODE') }}"
+    setup_replication: "{{ lookup('env', 'BAHMNI_SETUP_REPLICATION') }}"
+    active_host: "{{ lookup('env', 'BAHMNI_ACTIVE_HOST') }}"
+    passive_host: "{{ lookup('env', 'BAHMNI_PASSIVE_HOST') }}"
   vars_files:
     - variables.yml
     - variables_private.yml

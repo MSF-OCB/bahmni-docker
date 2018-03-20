@@ -1,0 +1,35 @@
+[mysqld_safe]
+log-error=/var/log/mysqld.log
+pid-file=/var/lib/mysql/mysqld.pid
+
+[mysqld]
+datadir=/var/lib/mysql
+socket=/var/lib/mysql/mysql.sock
+user=mysql
+# Disabling symbolic-links is recommended to prevent assorted security risks
+symbolic-links=0
+default-storage-engine=innodb
+character-set-server=utf8
+collation-server=utf8_general_ci
+log-error=/var/log/mysqld.log
+pid-file=/var/lib/mysql/mysqld.pid
+character-set-server=utf8
+collation-server=utf8_general_ci
+max_connections=150
+
+# For replication
+{% if ( ({{ setup_replication }} == 'true' or {{ setup_replication }} == 'True') and mode == 'active' ) %}
+server-id = {{ master_server_id }}
+log-bin = {{ log_bin_file_name }}
+log-bin-index = {{log_bin_index_file_name}}
+expire_logs_days = {{ expire_logs_days }}
+max_binlog_size = {{max_binlog_size}}
+innodb_flush_log_at_trx_commit = {{ innodb_flush_log_at_trx_commit}}
+sync_binlog = {{ sync_binlog }}
+{% endif %}
+
+{% if ( ({{ setup_replication }} == 'true' or {{ setup_replication }} == 'True') and mode == 'passive' ) %}
+server-id = {{ slave_server_id }}
+read_only
+{% endif %}
+
