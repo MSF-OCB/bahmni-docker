@@ -1,5 +1,13 @@
 ---
 
+- name: Wait for MySQL to become available on the master
+  wait_for:
+    host: "{{ active_host }}"
+    port: 3306
+    delay: 30
+    sleep: 3
+    state: started
+
 - name: Copy MySQL config
   template:
     src: templates/my.cnf.j2
@@ -28,6 +36,14 @@
   ignore_errors: true
 
 - block:
+
+  - name: Delete previous replication users
+    mysql_user:
+      name: "{{ mysql_replication_username }}"
+      login_user: "root"
+      login_password: "{{ mysql_root_password }}"
+      state: absent
+
   - name: Create and grant privileges to replication user of slave in master DB
     mysql_user:
       name: "{{ mysql_replication_username }}"
@@ -37,6 +53,7 @@
       login_password: "{{ mysql_root_password }}"
       priv: "*.*:ALL,GRANT"
       state: present
+
   when: server_mode == "active"
 
 - block:
