@@ -10,6 +10,7 @@ RUN yum install -y epel-release && \
                    crontabs \
                    python \
                    p7zip \
+                   openssh-server \
                    rsync && \
     yum clean all
 

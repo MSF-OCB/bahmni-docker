@@ -1,23 +1,29 @@
 ---
 
-- name: make list of all services
+- name: Make list of all services
   set_fact:
     all_services: [ "ntpd", "crond", "mysqld", "postgresql-9.2" ]
 
-- name: make list for starting services
+- name: Make list for starting services
   set_fact:
     services: "{{ all_services }}"
   when: state != "stopped"
 
-- name: make list for stopping services
+- name: Make list for stopping services
   set_fact:
     services: "{{ all_services | reverse | list }}"
   when: state == "stopped"
 
-- name: "Start/stop services"
+- name: Start/stop services
   service:
     name: "{{ item }}"
     state: "{{ state }}"
   with_items: "{{ services }}"
   ignore_errors: true
+
+- name: Start/stop ssh server on passive
+  service:
+    name: "sshd"
+    state: "{{ state }}"
+  when: server_mode == "passive"
 
