@@ -1,5 +1,25 @@
 ---
 
+- name: Create ssh dir for root
+  file:
+    path: "/root/.ssh/"
+    recurse: yes
+    state: directory
+
+- name: Synchronize ssh keys for root
+  synchronize:
+    src: "/tmp/artifacts/keys/"
+    dest: "/root/.ssh/"
+    checksum: yes
+
+- name: Set ssh key permissions for root
+  file:
+    path: "/root/.ssh/{{ item }}"
+    mode: 0600
+  with_items:
+    - bahmni_key
+    - bahmni_key.pub
+
 - name: Create /bahmni_backup dir
   file:
     path: "{{ bahmni_backup_dir }}/backups"
