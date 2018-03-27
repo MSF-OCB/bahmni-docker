@@ -87,18 +87,13 @@
     mysql_replication:
       mode: changemaster
       master_host: "{{ active_host }}"
-      master_user: "{{ mysql_replication_username }}"
-      master_password: "{{ mysql_replication_password }}"
       login_user: "root"
       login_password: "{{ mysql_root_password }}"
       master_log_file: "{{ repl_stat.File }}"
       master_log_pos: "{{ repl_stat.Position }}"
 
   - name: start replication
-    mysql_replication:
-      mode: startslave
-      login_user: "root"
-      login_password: "{{ mysql_root_password }}"
+    command: 'mysql -uroot -p{{ mysql_root_password }} -e"start slave user = ''{{ mysql_replication_username }}'' password = ''{{ mysql_replication_password }}''";'
 
   when: server_mode == "passive"
 
