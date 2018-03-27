@@ -16,12 +16,6 @@
     dest: "{{ bahmni_cert_dir }}"
     checksum: yes
 
-- name: Create the authorized_keys file
-  copy:
-    src: "/root/.ssh/bahmni_key.pub"
-    dest: "/root/.ssh/authorized_keys"
-    mode: "0600"
-
 - name: Synchronize the misc files
   synchronize:
     src: "/tmp/artifacts/misc/"

@@ -20,6 +20,12 @@
     - bahmni_key
     - bahmni_key.pub
 
+- name: Create the authorized_keys file
+  copy:
+    src: "/root/.ssh/bahmni_key.pub"
+    dest: "/root/.ssh/authorized_keys"
+    mode: "0600"
+
 - name: Create /bahmni_backup dir
   file:
     path: "{{ bahmni_backup_dir }}/backups"

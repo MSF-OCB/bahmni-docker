@@ -15,7 +15,7 @@ RUN yum install -y epel-release && \
     yum clean all
 
 COPY config.sh /
-COPY ansible/ /ansible/
+COPY stage1/ /ansible/
 COPY artifacts/ /tmp/artifacts/
 COPY install.sh /tmp/
 
@@ -23,6 +23,11 @@ ARG impl_file_suffix
 COPY inventory_${impl_file_suffix} /inventory
 
 RUN bash -e /tmp/install.sh
+
+COPY stage2/ /ansible/
+COPY keys /tmp/artifacts/keys/
+COPY post_install.sh /tmp/
+RUN bash -e /tmp/post_install.sh
 
 COPY start.sh /
 
