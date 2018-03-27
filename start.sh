@@ -7,6 +7,9 @@ function restart_openmrs_delayed() {
   service openmrs restart
 }
 
+# Make a file to source from cron scripts to have the bahmni specific env vars available
+printenv | egrep "^BAHMNI" | sed 's/^\(.*\)$/export \1/g' | tee /cron_env.sh
+
 ansible-playbook -i ${INVENTORY} /ansible/bahmni_start.yml
 
 case $1 in

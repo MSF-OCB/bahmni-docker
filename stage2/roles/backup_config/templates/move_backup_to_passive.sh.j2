@@ -1,5 +1,7 @@
 #!/bin/bash
 
+. /cron_env.sh
+
 if [ "${BAHMNI_SERVER_MODE}" != "active" -o "${BAHMNI_BACKUP_PASSIVE}" != "yes" ]; then
   echo "Skipping backup, mode (${BAHMNI_SERVER_MODE}) is not equal to active or bahmni_backup_passive (${BAHMNI_BACKUP_PASSIVE}) is not equal to yes."
   exit 0

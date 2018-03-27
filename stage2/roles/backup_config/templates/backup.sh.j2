@@ -1,5 +1,7 @@
 #!/bin/sh
 
+. /cron_env.sh
+
 if [ "${BAHMNI_SERVER_MODE}" != "active" ]; then
   echo "Skipping backup, mode ${BAHMNI_SERVER_MODE} is not equal to active."
   exit 0
