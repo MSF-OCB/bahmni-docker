@@ -20,6 +20,7 @@ max_connections=150
 # For replication
 {% if ( setup_replication|bool and server_mode == 'active' ) %}
 server-id = {{ master_server_id }}
+binlog_format = {{ binlog_format }}
 log-bin = {{ log_bin_file_name }}
 log-bin-index = {{ log_bin_index_file_name }}
 expire_logs_days = {{ expire_logs_days }}
@@ -30,6 +31,10 @@ sync_binlog = {{ sync_binlog }}
 
 {% if ( setup_replication|bool and server_mode == 'passive' ) %}
 server-id = {{ slave_server_id }}
+binlog_format = {{ binlog_format }}
+master_info_repository = TABLE
+relay_log_info_repository = TABLE
+relay_log_recovery = 1
 read_only
 {% endif %}
 
