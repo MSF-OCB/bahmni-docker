@@ -2,6 +2,9 @@
 
 . /cron_env.sh
 
+DATETIME=$(date +%Y%m%d_%H%M%S)
+echo "Starting move to passive at ${DATETIME}"
+
 if [ "${BAHMNI_SERVER_MODE}" != "active" -o "${BAHMNI_BACKUP_NESTOR}" != "yes" ]; then
   echo "Skipping backup, mode (${BAHMNI_SERVER_MODE}) is not equal to active or bahmni_backup_nestor (${BAHMNI_BACKUP_NESTOR}) is not equal to yes."
   exit 0

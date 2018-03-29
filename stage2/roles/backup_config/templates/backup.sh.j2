@@ -2,6 +2,9 @@
 
 . /cron_env.sh
 
+DATETIME=$(date +%Y%m%d_%H%M%S)
+echo "Starting backup at ${DATETIME}"
+
 if [ "${BAHMNI_SERVER_MODE}" != "active" ]; then
   echo "Skipping backup, mode ${BAHMNI_SERVER_MODE} is not equal to active."
   exit 0
@@ -13,9 +16,8 @@ ZIP7=/usr/bin/7za
 TAR=/bin/tar
 RM=/bin/rm
 
-DAY=`date +%Y-%m-%d`
-TIME=`date +%H%M%S`
-DATETIME=`date +%Y%m%d_%H%M%S`
+DAY=$(date +%Y-%m-%d)
+TIME=$(date +%H%M%S)
 
 BACKUP_DIR="{{ bahmni_backup_dir }}/backups"
 DAY_DIR_NAME="${BACKUP_DIR}/${HOSTNAME}-${DAY}"
