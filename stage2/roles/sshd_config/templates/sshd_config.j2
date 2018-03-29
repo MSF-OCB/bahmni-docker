@@ -1,0 +1,25 @@
+Port 22
+Protocol 2
+
+PermitRootLogin without-password
+PubkeyAuthentication yes
+AuthorizedKeysFile .ssh/authorized_keys
+PasswordAuthentication no
+ChallengeResponseAuthentication no
+KerberosAuthentication no
+GSSAPIAuthentication no
+UsePAM no
+
+AcceptEnv LANG LC_CTYPE LC_NUMERIC LC_TIME LC_COLLATE LC_MONETARY LC_MESSAGES
+AcceptEnv LC_PAPER LC_NAME LC_ADDRESS LC_TELEPHONE LC_MEASUREMENT
+AcceptEnv LC_IDENTIFICATION LC_ALL LANGUAGE
+AcceptEnv XMODIFIERS
+
+X11Forwarding no
+GatewayPorts no
+UseDNS no
+TCPKeepAlive yes
+Compression delayed
+
+Subsystem       sftp    /usr/libexec/openssh/sftp-server
+
