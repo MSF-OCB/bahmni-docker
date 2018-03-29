@@ -11,7 +11,6 @@ if [ "${BAHMNI_SERVER_MODE}" != "active" -o "${BAHMNI_BACKUP_NESTOR}" != "yes" ]
 fi
 
 BACKUP_DIR="{{ bahmni_backup_dir }}/backups"
-NESTOR_BACKUP_DIR="/volume1/Backups/bahmni/backups"
 
-rsync -e "ssh -i /root/.ssh/bahmni_key" -avz --omit-dir-times --delete ${BACKUP_DIR}/ root@nestor:"${NESTOR_BACKUP_DIR}/bahmni/"
+rsync -e "ssh -i /root/.ssh/bahmni_key" -avz --omit-dir-times --delete ${BACKUP_DIR}/ root@nestor:"${BAHMNI_NESTOR_BACKUP_DIR}/bahmni/"
 
