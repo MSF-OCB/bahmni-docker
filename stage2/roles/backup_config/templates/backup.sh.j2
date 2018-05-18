@@ -33,6 +33,8 @@ mysqldump -uroot -ppassword --default-character-set=utf8 --add-drop-database --a
 # be the administrative postgres database.
 pg_dumpall --clean --oids --quote-all-identifiers -Uclinlims > ${TIME_DIR_NAME}/postgresql_backup_$DATETIME.sql
 
+#sed -i 's/DROP DATABASE "clinlims";/DROP DATABASE "clinlims" CASCADE;\nDROP SCHEMA "clinlims" CASCADE;' ${TIME_DIR_NAME}/postgresql_backup_$DATETIME.sql
+
 $TAR -cf ${TIME_DIR_NAME}/homebahmni_$DATETIME.tar -C / home/bahmni
 
 $TAR -cf ${TIME_DIR_NAME}/bahmni_config_$DATETIME.tar -C / \
