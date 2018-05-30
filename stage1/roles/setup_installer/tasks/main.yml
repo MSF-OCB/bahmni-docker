@@ -1,8 +1,13 @@
 ---
 
+- name: Install python-setuptools
+  yum:
+    name: python-setuptools
+    state: present
+
 - name: Install the Bahmni installer
   yum:
-    name: "https://dl.bintray.com/bahmni/rpm/rpms/bahmni-installer-0.90-291.noarch.rpm"
+    name: "{{ bahmni_installer_url }}"
     state: present
 
 - name: Copy the MSF logo

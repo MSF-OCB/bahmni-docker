@@ -1,4 +1,5 @@
 ---
+- bahmni_installer_url: "https://dl.bintray.com/bahmni/rpm/rpms/bahmni-installer-0.90-308.noarch.rpm"
 - bahmni_backup_dir: '/bahmni_backup'
 - bahmni_cert_dir: /etc/bahmni_certs
 - bahmni_cert: bahmni.msf.org2017.crt
