@@ -7,13 +7,3 @@
     regexp: "http://pypi.python.org"
     replace: "https://pypi.python.org"
 
-- name: Upgrade pip
-  pip:
-    name: pip
-    state: latest
-
-- name: Run ez_setup
-  command: "python {{ role_path }}/files/ez_setup.py --user"
-  args:
-    chdir: /tmp
-
