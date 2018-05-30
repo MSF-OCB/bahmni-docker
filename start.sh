@@ -14,8 +14,8 @@ ansible-playbook -i ${INVENTORY} /ansible/bahmni_start.yml
 
 case $1 in
 "active")
+  ${BAHMNI} update-config
   ${BAHMNI} start
-  #${BAHMNI} update-config
 
   case $2 in
   "true" | "True" | "yes" | "Yes" | "false" | "False" | "no" | "No")
