@@ -12,5 +12,5 @@ fi
 
 BACKUP_DIR="{{ bahmni_backup_dir }}/backups"
 
-rsync -e "ssh -i /root/.ssh/bahmni_key" -avz --omit-dir-times --delete ${BACKUP_DIR}/ root@nestor:"${BAHMNI_NESTOR_BACKUP_DIR}/bahmni/"
+rsync -e "ssh -o ConnectTimeout=30 -o StrictHostKeyChecking=no -o IdentitiesOnly=yes -o Compression=no -o ControlMaster=no -i /root/.ssh/bahmni_key" -avz --omit-dir-times --delete ${BACKUP_DIR}/ root@nestor:"${BAHMNI_NESTOR_BACKUP_DIR}/bahmni/"
 
