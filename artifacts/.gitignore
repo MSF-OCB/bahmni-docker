@@ -1,4 +1,4 @@
 # Ignore subrepositories
 bahmni-playbooks/
-bahmni_config/
+*_config/
 
