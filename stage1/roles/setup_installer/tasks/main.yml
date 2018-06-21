@@ -47,7 +47,7 @@
 
 - name: Clone the Bahmni config
   git:
-    repo: "https://github.com/OCB-MSF/ocb-config.git"
+    repo: "{{ bahmni_implementation_repo }}"
     dest: "/etc/bahmni-installer/deployment-artifacts/{{ bahmni_implementation_name }}_config"
     clone: yes
     update: yes
