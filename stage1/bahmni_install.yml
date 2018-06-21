@@ -2,6 +2,8 @@
 
 - hosts: localhost
   connection: local
+  vars:
+    - bahmni_installer_url: "{{ lookup('env', 'bahmni_installer_url') }}"
   vars_files:
     - variables.yml
     - variables_private.yml

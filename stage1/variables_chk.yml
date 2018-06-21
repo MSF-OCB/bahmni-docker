@@ -1,6 +1,5 @@
 ---
 
-- bahmni_installer_pkg: 'bahmni-installer-0.90-291.noarch.rpm'
 - bahmni_timezone: 'Africa/Kinshasa'
 - bahmni_implementation_name: 'chk'
 - bahmni_implementation_branch: 'ocb-release-2.0'

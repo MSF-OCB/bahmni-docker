@@ -22,6 +22,7 @@ COPY install.sh /tmp/
 ARG impl_file_suffix
 COPY inventory_${impl_file_suffix} /inventory
 
+ARG bahmni_installer_url
 RUN bash -e /tmp/install.sh
 
 COPY stage2/ /ansible/

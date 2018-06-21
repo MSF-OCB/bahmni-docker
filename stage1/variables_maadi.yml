@@ -1,6 +1,5 @@
 ---
 
-- bahmni_installer_pkg: 'bahmni-installer-0.90-291.noarch.rpm'
 - bahmni_timezone: 'Africa/Cairo'
 - bahmni_implementation_name: 'maadi'
 - bahmni_implementation_branch: '{{ bahmni_implementation_name }}-master'
