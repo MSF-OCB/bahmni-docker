@@ -1,6 +1,6 @@
 ---
 
-- bahmni_timezone: 'Europe/Kyiv'
+- bahmni_timezone: 'Europe/Kiev'
 - bahmni_implementation_name: 'zhytomir'
 - bahmni_implementation_repo: 'https://github.com/MSF-OCB/bahmni-zhytomir-config.git'
 - bahmni_implementation_branch: 'master'
