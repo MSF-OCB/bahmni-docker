@@ -4,4 +4,5 @@
 - bahmni_implementation_name: 'zhytomir'
 - bahmni_implementation_repo: 'https://github.com/MSF-OCB/bahmni-zhytomir-config.git'
 - bahmni_implementation_branch: 'master'
+- custom_omods: [ "https://s3.amazonaws.com/endtb-artifacts/2.0.0/bahmniendtb-2.0.0.omod" ]
 

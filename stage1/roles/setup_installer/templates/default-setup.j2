@@ -8,6 +8,12 @@ SSLCertificateKeyFilePath: {{ bahmni_cert_dir }}/{{ bahmni_cert_key }}
 SSLCertificateChainFilePath: {{ bahmni_cert_dir }}/{{ bahmni_cert_chain }}
 selinux_state: disabled
 docker: yes
+{% if custom_omods is defined %}
+omods:
+{% for omod in custom_omods %}
+  - "{{ omod }}"
+{% endfor %}
+{% endif %}
 openmrs_server_options: "-Xms2048m -Xmx4096m {{ bahmni_java_gc_opts }}"
 bahmni_lab_server_opts: "-Xms512m -Xmx1024m {{ bahmni_java_gc_opts }}"
 bahmni_reports_server_opts: "-Xms512m -Xmx1024m {{ bahmni_java_gc_opts }}"
