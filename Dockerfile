@@ -1,4 +1,4 @@
-FROM centos:6
+FROM centos:6.9
 MAINTAINER ehealthsupport@brussels.msf.org
 
 #RUN yum install -y epel-release && \
