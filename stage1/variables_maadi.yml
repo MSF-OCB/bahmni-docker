@@ -2,7 +2,5 @@
 
 - bahmni_timezone: 'Africa/Cairo'
 - bahmni_implementation_name: 'maadi'
-- bahmni_implementation_repo: 'https://github.com/OCB-MSF/ocb-config.git'
-- bahmni_implementation_branch: '{{ bahmni_implementation_name }}-master'
 - copy_sql_dump: false
 

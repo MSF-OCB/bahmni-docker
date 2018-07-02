@@ -4,6 +4,8 @@
   connection: local
   vars:
     - bahmni_installer_url: "{{ lookup('env', 'bahmni_installer_url') }}"
+    - bahmni_implementation_repo: "{{ lookup('env', 'bahmni_implementation_repo') }}"
+    - bahmni_implementation_branch: "{{ lookup('env', 'bahmni_implementation_branch') }}"
   vars_files:
     - variables.yml
     - variables_private.yml
