@@ -2,6 +2,4 @@
 
 - bahmni_timezone: 'Africa/Kinshasa'
 - bahmni_implementation_name: 'chk'
-- bahmni_implementation_repo: 'https://github.com/OCB-MSF/ocb-config.git'
-- bahmni_implementation_branch: 'ocb-release-2.0'
 
