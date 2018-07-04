@@ -1,17 +1,15 @@
 FROM centos:6.9
 MAINTAINER ehealthsupport@brussels.msf.org
 
-#RUN yum install -y epel-release && \
-#    yum update -y && \
-#    yum clean all
-
 RUN yum install -y epel-release && \
     yum install -y sudo \
                    crontabs \
                    python \
                    p7zip \
                    openssh-server \
-                   rsync && \
+                   rsync \
+                   python-pip \
+                   ansible && \
     yum clean all
 
 COPY config.sh /
@@ -35,5 +33,4 @@ RUN bash -e /tmp/post_install.sh
 COPY start.sh /
 
 # https://vsupalov.com/docker-build-time-env-values/
-ENV impl_file_suffix=$impl_file_suffix
 
