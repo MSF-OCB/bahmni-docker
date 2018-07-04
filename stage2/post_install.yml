@@ -5,7 +5,6 @@
   vars_files:
     - variables.yml
     - variables_private.yml
-    - "variables_{{ lookup('env', 'impl_file_suffix') }}.yml"
   roles:
     - sshd_config
     - { role: backup_config, when: bahmni_backup|default(false)|bool }
