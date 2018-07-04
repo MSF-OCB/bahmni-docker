@@ -1,0 +1,35 @@
+---
+
+- name: Removing recovery config file
+  file:
+    path: "/var/lib/pgsql/{{ postgres_version }}/data/recovery.conf"
+    state: absent
+
+- block:
+
+  - name: Cleaning up old backup directory
+    file:
+      path: "/var/lib/pgsql/{{ postgres_version }}/data"
+      state: absent
+
+  - name: Starting base backup as replication user
+    shell: "pg_basebackup -h {{ active_host }} -D /var/lib/pgsql/{{ postgres_version }}/data -U{{ postgres }} -v -P --xlog-method=stream"
+    become: true
+    become_user: postgres
+
+  - name: copy recovery conf file
+    template:
+      src: "recovery.conf.j2"
+      dest: "/var/lib/pgsql/{{ postgres_version }}/data/recovery.conf"
+      mode: 0644
+      owner: postgres
+      group: postgres
+
+  when: server_mode == "passive"
+
+- name: Restart PostgreSQL
+  service:
+    name: "postgresql-{{ postgres_version }}"
+    state: "restarted"
+  ignore_errors: true
+
