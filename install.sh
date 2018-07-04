@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-yum install -y python-pip ansible git
+yum install -y git
 
 source ./config.sh
 
