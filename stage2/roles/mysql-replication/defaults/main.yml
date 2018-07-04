@@ -7,6 +7,4 @@ log_bin_file_name: /var/log/mysql/mysql-bin
 log_bin_index_file_name: /var/log/mysql/mysql-bin.index
 innodb_flush_log_at_trx_commit: 1
 sync_binlog: 1
-mysql_replication_username: replication-user
-mysql_replication_password: gZz4wglxyNh3KL7mw3Ed
 
