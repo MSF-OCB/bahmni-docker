@@ -6,4 +6,5 @@
 - bahmni_cert_chain: bahmni.msf.org2017-bundle.ca-bundle
 - bahmni_java_gc_opts: "-XX:+UseG1GC -XX:+UseStringDeduplication"
 - mysql_user: root
+- postgres_version: 9.2
 
