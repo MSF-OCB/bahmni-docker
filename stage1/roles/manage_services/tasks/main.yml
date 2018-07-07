@@ -2,7 +2,7 @@
 
 - name: Make list of all services
   set_fact:
-    all_services: [ "ntpd", "crond", "mysqld", "postgresql-{{ postgres_version }}" ]
+    all_services: "[ \"ntpd\", \"crond\", \"mysqld\" ] + {{ postgres_present|ternary([ \"postgresql-{{ postgres_version }}\", []) }} ]"
 
 - name: Make list for starting services
   set_fact:
