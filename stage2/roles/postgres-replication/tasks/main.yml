@@ -1,19 +1,63 @@
 ---
 
-- name: Removing recovery config file
-  file:
-    path: "/var/lib/pgsql/{{ postgres_version }}/data/recovery.conf"
-    state: absent
+- block:
+
+  - name: Removing recovery config file
+    file:
+      path: "/var/lib/pgsql/{{ postgres_version }}/data/recovery.conf"
+      state: absent
+
+  - name: Restart PostgreSQL
+    service:
+      name: "postgresql-{{ postgres_version }}"
+      state: "restarted"
+
+  - name: Add replication user
+    postgresql_user:
+      login_user: postgres
+      name: "{{ bahmni_replication_username }}"
+      password: "{{ bahmni_replication_password }}"
+      role_attr_flags: REPLICATION,LOGIN
+      conn_limit: 1
+      state: present
+
+  - name: Add the replication user to pg_hba.conf
+    blockinfile:
+      path: "/var/lib/pgsql/{{ postgres_version }}/data/pg_hba.conf"
+      marker: "# {mark} ANSIBLE MANAGED BLOCK (allow {{ passive_host }})"
+      state: present
+      block: |
+        host replication {{ bahmni_replication_username }} {{ passive_host }}/32 md5
+
+  - name: Restart PostgreSQL
+    service:
+      name: "postgresql-{{ postgres_version }}"
+      state: "restarted"
+
+  when: server_mode == "active"
 
 - block:
 
-  - name: Cleaning up old backup directory
+  - name: Stop PostgreSQL
+    service:
+      name: "postgresql-{{ postgres_version }}"
+      state: "stopped"
+
+  - name: Wait for PostgreSQL to become available on the master
+    wait_for:
+      host: "{{ active_host }}"
+      port: "{{ postgresql_replication_port }}"
+      delay: 15
+      sleep: 3
+      state: started
+
+  - name: Delete old data directory
     file:
       path: "/var/lib/pgsql/{{ postgres_version }}/data"
       state: absent
 
   - name: Starting base backup as replication user
-    shell: "pg_basebackup -h {{ active_host }} -D /var/lib/pgsql/{{ postgres_version }}/data -U{{ postgres }} -v -P --xlog-method=stream"
+    shell: "pg_basebackup -h {{ active_host }} -D /var/lib/pgsql/{{ postgres_version }}/data -U{{ bahmni_replication_username }} -v -P --xlog-method=stream {{ bahmni_replication_password }}"
     become: true
     become_user: postgres
 
@@ -25,11 +69,18 @@
       owner: postgres
       group: postgres
 
-  when: server_mode == "passive"
+  - name: Add the replication user to pg_hba.conf
+    blockinfile:
+      path: "/var/lib/pgsql/{{ postgres_version }}/data/pg_hba.conf"
+      marker: "# {mark} ANSIBLE MANAGED BLOCK (allow {{ active_host }})"
+      state: present
+      block: |
+        host replication {{ bahmni_replication_username }} {{ active_host }}/32 md5
 
-- name: Restart PostgreSQL
-  service:
-    name: "postgresql-{{ postgres_version }}"
-    state: "restarted"
-  ignore_errors: true
+  - name: Start PostgreSQL
+    service:
+      name: "postgresql-{{ postgres_version }}"
+      state: "started"
+
+  when: server_mode == "passive"
 

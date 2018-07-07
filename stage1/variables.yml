@@ -7,4 +7,6 @@
 - bahmni_java_gc_opts: "-XX:+UseG1GC -XX:+UseStringDeduplication"
 - mysql_user: root
 - postgres_version: 9.2
+- mysql_replication_port: 3306
+- postgresql_replication_port: 5432
 

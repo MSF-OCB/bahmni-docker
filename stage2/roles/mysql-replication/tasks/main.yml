@@ -3,8 +3,8 @@
 - name: Wait for MySQL to become available on the master
   wait_for:
     host: "{{ active_host }}"
-    port: 3306
-    delay: 30
+    port: "{{ mysql_replication_port }}"
+    delay: 15
     sleep: 3
     state: started
   when: server_mode == "passive"
