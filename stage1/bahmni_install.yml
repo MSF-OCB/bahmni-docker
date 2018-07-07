@@ -3,13 +3,13 @@
 - hosts: localhost
   connection: local
   vars:
-    - bahmni_installer_url: "{{ lookup('env', 'bahmni_installer_url') }}"
-    - bahmni_implementation_repo: "{{ lookup('env', 'bahmni_implementation_repo') }}"
-    - bahmni_implementation_branch: "{{ lookup('env', 'bahmni_implementation_branch') }}"
+    - bahmni_installer_url: "{{ lookup('env', 'BAHMNI_INSTALLER_URL') }}"
+    - bahmni_implementation_repo: "{{ lookup('env', 'BAHMNI_IMPLEMENTATION_REPO') }}"
+    - bahmni_implementation_branch: "{{ lookup('env', 'BAHMNI_IMPLEMENTATION_BRANCH') }}"
   vars_files:
     - variables.yml
     - variables_private.yml
-    - "variables_{{ lookup('env', 'impl_file_suffix') }}.yml"
+    - "variables_{{ lookup('env', 'BAHMNI_IMPL_FILE_SUFFIX') }}.yml"
   roles:
     - fix_python
     - setup_installer
