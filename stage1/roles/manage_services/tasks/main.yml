@@ -27,7 +27,6 @@
     name: "{{ item }}"
     state: "{{ state }}"
   with_items: "{{ services }}"
-  ignore_errors: true
 
 - name: Start/stop ssh server on passive
   service:
