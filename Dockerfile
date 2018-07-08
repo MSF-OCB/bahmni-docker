@@ -28,6 +28,7 @@ RUN bash -e /tmp/install.sh
 
 COPY stage2/ /ansible/
 COPY keys /tmp/artifacts/keys/
+COPY omods/ /tmp/artifacts/omods/
 COPY post_install.sh /tmp/
 RUN bash -e /tmp/post_install.sh
 

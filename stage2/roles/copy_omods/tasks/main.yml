@@ -1,0 +1,10 @@
+---
+
+- name: Copy the custom OMODs
+  synchronize:
+    src: "/tmp/artifacts/omods/"
+    dest: "/opt/openmrs/modules"
+    delete: no
+    copy_links: yes
+    checksum: yes
+
