@@ -2,10 +2,13 @@
 
 - hosts: localhost
   connection: local
+  vars:
+    postgres_present: "{{ lookup('env', 'BAHMNI_POSTGRES_PRESENT') }}"
   vars_files:
     - variables.yml
     - variables_private.yml
   roles:
     - sshd_config
     - { role: backup_config, when: bahmni_backup|default(false)|bool }
+    - { role: postgres, when: postgres_present|bool }
 

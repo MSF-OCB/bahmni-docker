@@ -1,0 +1,8 @@
+---
+
+- name: Disable archive mode
+  lineinfile:
+    path: "/var/lib/pgsql/{{ postgres_version }}/data/postgresql.conf"
+    regexp: "^archive_mode"
+    line: "archive_mode = off"
+
