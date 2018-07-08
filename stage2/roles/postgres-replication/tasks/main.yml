@@ -18,7 +18,7 @@
       name: "{{ bahmni_replication_username }}"
       password: "{{ bahmni_replication_password }}"
       role_attr_flags: REPLICATION,LOGIN
-      conn_limit: 1
+#      conn_limit: 2
       state: present
 
   - name: Add the replication user to pg_hba.conf
@@ -57,7 +57,9 @@
       state: absent
 
   - name: Starting base backup as replication user
-    shell: "pg_basebackup -h {{ active_host }} -D /var/lib/pgsql/{{ postgres_version }}/data -U{{ bahmni_replication_username }} -v -P --xlog-method=stream {{ bahmni_replication_password }}"
+    shell: "pg_basebackup -h {{ active_host }} -D /var/lib/pgsql/{{ postgres_version }}/data -U{{ bahmni_replication_username }} -v -P --xlog-method=stream"
+    environment:
+      PGPASSWORD: "{{ bahmni_replication_password }}"
     become: true
     become_user: postgres
 
