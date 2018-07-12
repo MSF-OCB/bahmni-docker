@@ -42,5 +42,5 @@ rsync --partial --progress -e "ssh -F $HOME/.ssh/config" <image_name>-docker.img
 
 On the receiving machine (called "target_host" above):
 ```
-docker import <image_name>.tar localhost:5000/<image>:<version>
+docker load -i <image_name>.tar
 ```
