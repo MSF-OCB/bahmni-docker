@@ -24,10 +24,10 @@
   - name: Add the replication user to pg_hba.conf
     blockinfile:
       path: "/var/lib/pgsql/{{ postgres_version }}/data/pg_hba.conf"
-      marker: "# {mark} ANSIBLE MANAGED BLOCK (allow {{ passive_host }})"
+      marker: "# {mark} ANSIBLE MANAGED BLOCK (allow the other server)"
       state: present
       block: |
-        host replication {{ bahmni_replication_username }} {{ passive_host }}/32 md5
+        host replication {{ bahmni_replication_username }} {{ passive_host }} md5
 
   - name: Restart PostgreSQL
     service:
@@ -74,10 +74,10 @@
   - name: Add the replication user to pg_hba.conf
     blockinfile:
       path: "/var/lib/pgsql/{{ postgres_version }}/data/pg_hba.conf"
-      marker: "# {mark} ANSIBLE MANAGED BLOCK (allow {{ active_host }})"
+      marker: "# {mark} ANSIBLE MANAGED BLOCK (allow the other server)"
       state: present
       block: |
-        host replication {{ bahmni_replication_username }} {{ active_host }}/32 md5
+        host replication {{ bahmni_replication_username }} {{ active_host }} md5
 
   - name: Start PostgreSQL
     service:
