@@ -3,11 +3,16 @@
 - hosts: localhost
   connection: local
   vars:
-    postgres_present: "{{ lookup('env', 'BAHMNI_POSTGRES_PRESENT') }}"
+    - postgres_present: "{{ lookup('env', 'BAHMNI_POSTGRES_PRESENT') }}"
+    - bahmni_implementation_name: "{{ lookup('env', 'BAHMNI_IMPL_NAME') }}"
+    - bahmni_implementation_repo: "{{ lookup('env', 'BAHMNI_IMPLEMENTATION_REPO') }}"
+    - bahmni_implementation_branch: "{{ lookup('env', 'BAHMNI_IMPLEMENTATION_BRANCH') }}"
   vars_files:
     - variables.yml
     - variables_private.yml
+    - "variables_{{ lookup('env', 'BAHMNI_IMPL_NAME') }}.yml"
   roles:
+    - configure
     - copy_omods
     - sshd_config
     - { role: backup_config, when: bahmni_backup|default(false)|bool }

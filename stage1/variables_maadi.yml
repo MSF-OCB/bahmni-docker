@@ -1,6 +1,4 @@
 ---
 
-- bahmni_timezone: 'Africa/Cairo'
-- bahmni_implementation_name: 'maadi'
 - copy_sql_dump: false
 

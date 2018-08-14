@@ -4,12 +4,14 @@
   connection: local
   vars:
     - bahmni_installer_url: "{{ lookup('env', 'BAHMNI_INSTALLER_URL') }}"
+    - bahmni_implementation_name: "{{ lookup('env', 'BAHMNI_IMPL_NAME') }}"
+    - bahmni_timezone: "{{ lookup('env', 'BAHMNI_TIMEZONE') }}"
     - bahmni_implementation_repo: "{{ lookup('env', 'BAHMNI_IMPLEMENTATION_REPO') }}"
     - bahmni_implementation_branch: "{{ lookup('env', 'BAHMNI_IMPLEMENTATION_BRANCH') }}"
   vars_files:
     - variables.yml
     - variables_private.yml
-    - "variables_{{ lookup('env', 'BAHMNI_IMPL_FILE_SUFFIX') }}.yml"
+    - "variables_{{ lookup('env', 'BAHMNI_IMPL_NAME') }}.yml"
   roles:
     - fix_python
     - setup_installer

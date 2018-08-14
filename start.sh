@@ -22,6 +22,12 @@ case $1 in
     exit 1
   esac
 
+  CONFIG_UPDATED_FILE="/config_updated"
+  if [ ! -f ${CONFIG_UPDATED_FILE} ]; then
+    ${BAHMNI} update-config
+    touch ${CONFIG_UPDATED_FILE}
+  fi
+
   ${BAHMNI} start
   #restart_openmrs_delayed &
 

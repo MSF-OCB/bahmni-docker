@@ -6,9 +6,6 @@ source ./config.sh
 
 ansible-playbook -i ${INVENTORY} /ansible/bahmni_install.yml
 ${BAHMNI} install
-if [ -f ${IMPL_SPEC_PLAYBOOK} ]; then
-  ${BAHMNI} --implementation_play=${IMPL_SPEC_PLAYBOOK} install-impl
-fi
 
 ${BAHMNI} stop
 ansible-playbook -i ${INVENTORY} /ansible/bahmni_stop.yml

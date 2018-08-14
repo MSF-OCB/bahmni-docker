@@ -1,0 +1,49 @@
+---
+
+- name: Synchronize the misc files
+  synchronize:
+    src: "/tmp/artifacts/misc/"
+    dest: "/tmp/"
+    perms: no  # Don't change perms of /tmp
+    copy_links: yes
+    checksum: yes
+
+- name: Clone the Bahmni config
+  git:
+    repo: "{{ bahmni_implementation_repo }}"
+    dest: "/etc/bahmni-installer/deployment-artifacts/{{ bahmni_implementation_name }}_config"
+    clone: yes
+    update: yes
+    version: "{{ bahmni_implementation_branch }}"
+    depth: 1
+    force: yes
+
+- name: Delete Git info from Bahmni config
+  file:
+    path: "/etc/bahmni-installer/deployment-artifacts/{{ bahmni_implementation_name }}_config/.git"
+    state: absent
+
+- stat:
+    path: "/etc/bahmni-installer/deployment-artifacts/{{ bahmni_implementation_name }}_config/db_dumps/openmrs_backup.sql"
+  register: openmrs_dump
+
+- name: Copy the OpenMRS SQL dump
+  synchronize:
+    src: "/etc/bahmni-installer/deployment-artifacts/{{ bahmni_implementation_name }}_config/db_dumps/openmrs_backup.sql"
+    dest: "/etc/bahmni-installer/deployment-artifacts/openmrs_backup.sql"
+    copy_links: yes
+    checksum: yes
+  when: openmrs_dump.stat.exists and copy_sql_dump|default(true)|bool and false
+
+- stat:
+    path: "/etc/bahmni-installer/deployment-artifacts/{{ bahmni_implementation_name }}_config/db_dumps/openelis_backup.sql"
+  register: openelis_dump
+
+- name: Copy the OpenELIS SQL dump
+  synchronize:
+    src: "/etc/bahmni-installer/deployment-artifacts/{{ bahmni_implementation_name }}_config/db_dumps/openelis_backup.sql"
+    dest: "/etc/bahmni-installer/deployment-artifacts/openelis_backup.sql"
+    copy_links: yes
+    checksum: yes
+  when: openelis_dump.stat.exists and copy_sql_dump|default(true)|bool and false
+

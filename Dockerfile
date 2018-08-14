@@ -12,25 +12,28 @@ RUN yum install -y epel-release && \
                    ansible && \
     yum clean all
 
-COPY config.sh /
+COPY artifacts/certs/ /tmp/artifacts/certs/
 COPY stage1/ /ansible/
-COPY artifacts/ /tmp/artifacts/
-COPY install.sh /tmp/
+COPY stage1.sh /tmp/
+COPY artifacts/bahmni-playbooks/ /tmp/artifacts/bahmni-playbooks/
+COPY config.sh /
 
-ARG BAHMNI_IMPL_FILE_SUFFIX
-COPY inventory_${BAHMNI_IMPL_FILE_SUFFIX} /inventory
+ARG BAHMNI_IMPL_NAME
+COPY inventory_${BAHMNI_IMPL_NAME} /inventory
 
+ARG BAHMNI_TIMEZONE
 ARG BAHMNI_INSTALLER_URL
 ARG BAHMNI_IMPLEMENTATION_REPO
 ARG BAHMNI_IMPLEMENTATION_BRANCH
 ARG BAHMNI_POSTGRES_PRESENT
-RUN bash -e /tmp/install.sh
+RUN bash -e /tmp/stage1.sh
 
 COPY stage2/ /ansible/
-COPY keys /tmp/artifacts/keys/
+COPY stage2.sh /tmp/
+COPY keys/ /tmp/artifacts/keys/
 COPY omods/ /tmp/artifacts/omods/
-COPY post_install.sh /tmp/
-RUN bash -e /tmp/post_install.sh
+COPY artifacts/misc/ /tmp/artifacts/misc/
+RUN bash -e /tmp/stage2.sh
 
 COPY start.sh /
 
