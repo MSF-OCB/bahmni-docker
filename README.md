@@ -41,7 +41,8 @@ docker save -o <image_name>.tar localhost:5000/<image>:<version>
 rsync --partial --progress --delay-updates --rsync-path="sudo rsync" -e "ssh -F $HOME/.ssh/config" <image_name>.tar.7z <target_host>:/opt/
 ```
 
-On the receiving machine (called "target_host" above):
+On the receiving machine (called "target_host" above): (in /opt)
 ```
+7za x <image_name>.tar.7z
 docker load -i <image_name>.tar
 ```
