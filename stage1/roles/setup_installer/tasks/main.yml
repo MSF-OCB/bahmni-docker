@@ -42,21 +42,6 @@
     path: "/etc/bahmni-installer/deployment-artifacts/{{ bahmni_implementation_name }}_config"
     state: directory
 
-#- name: Clone the Bahmni config
-#  git:
-#    repo: "{{ bahmni_implementation_repo }}"
-#    dest: "/etc/bahmni-installer/deployment-artifacts/{{ bahmni_implementation_name }}_config"
-#    clone: yes
-#    update: yes
-#    version: "{{ bahmni_implementation_branch }}"
-#    depth: 1
-#    force: yes
-#
-#- name: Delete Git info from Bahmni config
-#  file:
-#    path: "/etc/bahmni-installer/deployment-artifacts/{{ bahmni_implementation_name }}_config/.git"
-#    state: absent
-
 - name: Copy the Bahmni playbooks
   synchronize:
     src: "/tmp/artifacts/bahmni-playbooks/"

@@ -19,7 +19,7 @@ COPY artifacts/bahmni-playbooks/ /tmp/artifacts/bahmni-playbooks/
 COPY config.sh /
 
 ARG BAHMNI_IMPL_NAME
-COPY inventory_${BAHMNI_IMPL_NAME} /inventory
+COPY inventories/inventory_${BAHMNI_IMPL_NAME} /inventory
 
 ARG BAHMNI_TIMEZONE
 ARG BAHMNI_INSTALLER_URL

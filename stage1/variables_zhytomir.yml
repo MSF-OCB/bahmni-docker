@@ -1,9 +1,0 @@
----
-
-- custom_omods: [
-                  "https://s3.amazonaws.com/endtb-artifacts/2.0.0/bahmniendtb-2.0.0.omod",
-                  "https://dl.bintray.com/openmrs/omod/dataintegrity-4.2.3.omod",
-                  "https://s3.amazonaws.com/endtb-artifacts/1.6/bahmnicore-omod-0.88-SNAPSHOT.omod",
-                  "https://s3.amazonaws.com/endtb-artifacts/1.1/bacteriology-1.1-SNAPSHOT.omod"
-                ]
-
