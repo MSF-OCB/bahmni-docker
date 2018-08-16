@@ -37,7 +37,6 @@ On the build machine:
 ```
 docker save -o <image_name>.tar localhost:5000/<image>:<version>
 7za a -t7z -m0=lzma2 -ms=on -mx=9 <image_name>.tar.7z <image_name>.tar
-# Make sure your user has enough rights on /opt
 rsync --partial --progress --delay-updates --rsync-path="sudo rsync" -e "ssh -F $HOME/.ssh/config" <image_name>.tar.7z <target_host>:/opt/
 ```
 
