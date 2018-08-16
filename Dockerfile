@@ -30,8 +30,8 @@ RUN bash -e /tmp/stage1.sh
 
 COPY stage2/ /ansible/
 COPY stage2.sh /tmp/
-COPY keys/ /tmp/artifacts/keys/
-COPY omods/ /tmp/artifacts/omods/
+COPY artifacts/keys/ /tmp/artifacts/keys/
+COPY artifacts/omods/ /tmp/artifacts/omods/
 COPY artifacts/misc/ /tmp/artifacts/misc/
 RUN bash -e /tmp/stage2.sh
 
