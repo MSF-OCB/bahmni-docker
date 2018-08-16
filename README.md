@@ -42,6 +42,7 @@ rsync --partial --progress --delay-updates --rsync-path="sudo rsync" -e "ssh -F 
 
 On the receiving machine (called "target_host" above): (in /opt)
 ```
+cd /opt
 7za x <image_name>.tar.7z
 docker load -i <image_name>.tar
 ```
