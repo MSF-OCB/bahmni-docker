@@ -27,7 +27,7 @@
       marker: "# {mark} ANSIBLE MANAGED BLOCK (allow the other server)"
       state: present
       block: |
-        host replication {{ bahmni_replication_username }} {{ passive_host }} md5
+        host replication {{ bahmni_replication_username }} {{ passive_host }}/32 md5
 
   - name: Restart PostgreSQL
     service:
@@ -77,7 +77,7 @@
       marker: "# {mark} ANSIBLE MANAGED BLOCK (allow the other server)"
       state: present
       block: |
-        host replication {{ bahmni_replication_username }} {{ active_host }} md5
+        host replication {{ bahmni_replication_username }} {{ active_host }}/32 md5
 
   - name: Start PostgreSQL
     service:
