@@ -1,0 +1,7 @@
+---
+
+- name: Make the start script executable
+  file:
+    path: /start.sh
+    mode: 0777
+
