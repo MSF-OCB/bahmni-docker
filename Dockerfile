@@ -32,10 +32,9 @@ COPY stage2/ /ansible/
 COPY stage2.sh /tmp/
 COPY artifacts/keys/ /tmp/artifacts/keys/
 COPY artifacts/omods/ /tmp/artifacts/omods/
-COPY artifacts/misc/ /tmp/artifacts/misc/
-RUN bash -e /tmp/stage2.sh
-
+COPY artifacts/misc/ /tmp/
 COPY start.sh /
+RUN bash -e /tmp/stage2.sh
 
 # https://vsupalov.com/docker-build-time-env-values/
 

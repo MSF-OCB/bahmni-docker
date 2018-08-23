@@ -1,13 +1,5 @@
 ---
 
-- name: Synchronize the misc files
-  synchronize:
-    src: "/tmp/artifacts/misc/"
-    dest: "/tmp/"
-    perms: no  # Don't change perms of /tmp
-    copy_links: yes
-    checksum: yes
-
 - name: Clone the Bahmni config
   git:
     repo: "{{ bahmni_implementation_repo }}"
