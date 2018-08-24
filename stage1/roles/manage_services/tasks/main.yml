@@ -19,7 +19,7 @@
 
 - name: Make list for stopping services
   set_fact:
-    services: "{{ all_services | reverse | list }}"
+    services: "{{ all_services | reverse | list }} + [ 'httpd' ]"
   when: state == "stopped"
 
 - name: Start/stop services

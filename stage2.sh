@@ -21,6 +21,7 @@ yum remove -y git
 yum clean all
 
 rm -rf /var/log/*
+rm -rf /var/run/*
 rm -rf /opt/*.rpm
 rm -rf /{bahmni_tmp,selinux,srv,media}
 rm -rf /var/cache/yum
