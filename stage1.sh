@@ -20,4 +20,5 @@ rm -rf /{bahmni_tmp,selinux,srv,media}
 rm -rf /var/cache/yum
 rm -rf /tmp/*
 mkdir -p /var/log/httpd
+mkdir -p /var/run/httpd
 
