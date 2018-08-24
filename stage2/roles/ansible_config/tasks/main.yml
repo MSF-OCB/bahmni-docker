@@ -2,7 +2,7 @@
 
 - name: Do not gather hardware facts to avoid a bug with Ansible on Docker
   lineinfile:
-    - path: /etc/ansible/ansible.cfg
-    - insertafter: "^#?gather_subset"
-    - line: "gather_subset = !hardware"
+    path: /etc/ansible/ansible.cfg
+    insertafter: "^#?gather_subset"
+    line: "gather_subset = !hardware"
 
