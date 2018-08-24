@@ -38,7 +38,9 @@ COPY start.sh /
 # Disable caching by copying a changing file into /dev/null.
 # Use "date > marker" to update the file.
 # This is to force the git repo for the config to be cloned every time.
-COPY marker* /dev/null
+# The glob means the file is optional but COPY needs to copy at least one file,
+# so we add an extra file to make sure something can be copied.
+COPY start.sh marker* /dev/null
 
 RUN bash -e /tmp/stage2.sh
 
