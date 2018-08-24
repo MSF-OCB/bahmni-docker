@@ -2,6 +2,16 @@
 
 source ./config.sh
 
+# Function to cleanly stop the container
+function teardown {
+  ${BAHMNI} stop || true
+  ansible-playbook -i ${INVENTORY} /ansible/bahmni_stop.yml
+  exit 0
+}
+
+# Properly trap the SIGTERM signal to cleanly stop the docker container
+# Make sure this script is running as PID 1 in the container!
+#trap teardown SIGTERM
 
 # Make a file to source from cron scripts to have the bahmni specific env vars available
 printenv | egrep "^BAHMNI" | sed 's/^\(.*\)$/export \1/g' | tee /cron_env.sh
