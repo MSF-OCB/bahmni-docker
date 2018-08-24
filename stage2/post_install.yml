@@ -17,4 +17,5 @@
     - { role: backup_config, when: bahmni_backup|default(false)|bool }
     - { role: postgres, when: postgres_present|bool }
     - permissions
+    - ansible_config
 
