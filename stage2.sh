@@ -9,10 +9,6 @@ ansible-playbook -i ${INVENTORY} /ansible/bahmni_stop.yml
 
 ansible-playbook -i ${INVENTORY} /ansible/post_install.yml
 
-#ansible-playbook -i ${INVENTORY} /ansible/bahmni_start.yml
-#${BAHMNI} update-config
-#ansible-playbook -i ${INVENTORY} /ansible/bahmni_stop.yml
-
 if [ -f ${IMPL_SPEC_PLAYBOOK} ]; then
   ${BAHMNI} --implementation_play=${IMPL_SPEC_PLAYBOOK} install-impl
 fi
