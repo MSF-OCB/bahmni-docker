@@ -37,7 +37,7 @@ On the build machine:
 ```
 docker save localhost:5000/<img name>:<version> | 7za a -t7z -m0=lzma2 -ms=on -mx=9 -si <img name>-<version>.tar.7z
 eval $(ssh-agent)
-false; while [ $? -ne 0 ]; do rsync --partial --progress --delay-updates --rsync-path="sudo rsync" -e "ssh -F $HOME/.ssh/config" <img name>-<version>.tar.7z <target_host>:/opt/; done
+false; while [ $? -ne 0 ]; do rsync --partial --delay-updates --progress --rsync-path="sudo rsync" -e "ssh -F $HOME/.ssh/config" <img name>-<version>.tar.7z <target_host>:/opt/; done
 ```
 
 On the receiving machine (called "target_host" above): (in /opt)
@@ -45,3 +45,9 @@ On the receiving machine (called "target_host" above): (in /opt)
 cd /opt
 7za x -so <img name>-<version>.tar.7z | docker load
 ```
+
+To copy between the active and the passive, copy your (passphrase protected!!) private key onto the sending server and run:
+```
+rsync --partial --delay-updates --progress --rsync-path="sudo rsync" -e "ssh -i .ssh/id_ec" /opt/<img name>-<version>.tar.7z bahmni-passive.msf.org:/opt/
+```
+Or use `bahmni.msf.org` as host name for the other direction.
