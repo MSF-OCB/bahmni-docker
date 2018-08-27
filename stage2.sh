@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-yum install -y git
+yum install -y git python-netaddr
 
 source ./config.sh
 

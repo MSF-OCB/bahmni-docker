@@ -1,16 +1,16 @@
 ---
 
+- name: Stop PostgreSQL
+  service:
+    name: "postgresql-{{ postgres_version }}"
+    state: "stopped"
+
 - block:
 
   - name: Removing recovery config file
     file:
       path: "/var/lib/pgsql/{{ postgres_version }}/data/recovery.conf"
       state: absent
-
-  - name: Restart PostgreSQL
-    service:
-      name: "postgresql-{{ postgres_version }}"
-      state: "restarted"
 
   - name: Add replication user
     postgresql_user:
@@ -21,27 +21,21 @@
 #      conn_limit: 2
       state: present
 
+  - name: Determine what to add to the pg_hba.conf file
+    set_fact:
+      pg_hba_passive_host: "{{ passive_host if (not (passive_host | ipaddr)) else passive_host + '/32' }}"
+
   - name: Add the replication user to pg_hba.conf
     blockinfile:
       path: "/var/lib/pgsql/{{ postgres_version }}/data/pg_hba.conf"
       marker: "# {mark} ANSIBLE MANAGED BLOCK (allow the other server)"
       state: present
       block: |
-        host replication {{ bahmni_replication_username }} {{ passive_host }}/32 md5
-
-  - name: Restart PostgreSQL
-    service:
-      name: "postgresql-{{ postgres_version }}"
-      state: "restarted"
+        host replication {{ bahmni_replication_username }} {{ pg_hba_passive_host }} md5
 
   when: server_mode == "active"
 
 - block:
-
-  - name: Stop PostgreSQL
-    service:
-      name: "postgresql-{{ postgres_version }}"
-      state: "stopped"
 
   - name: Wait for PostgreSQL to become available on the master
     wait_for:
@@ -63,7 +57,7 @@
     become: true
     become_user: postgres
 
-  - name: copy recovery conf file
+  - name: Copy recovery conf file
     template:
       src: "recovery.conf.j2"
       dest: "/var/lib/pgsql/{{ postgres_version }}/data/recovery.conf"
@@ -71,18 +65,22 @@
       owner: postgres
       group: postgres
 
+  - name: Determine what to add to the pg_hba.conf file
+    set_fact:
+      pg_hba_active_host: "{{ active_host if (not (active_host | ipaddr)) else active_host + '/32' }}"
+
   - name: Add the replication user to pg_hba.conf
     blockinfile:
       path: "/var/lib/pgsql/{{ postgres_version }}/data/pg_hba.conf"
       marker: "# {mark} ANSIBLE MANAGED BLOCK (allow the other server)"
       state: present
       block: |
-        host replication {{ bahmni_replication_username }} {{ active_host }}/32 md5
-
-  - name: Start PostgreSQL
-    service:
-      name: "postgresql-{{ postgres_version }}"
-      state: "started"
+        host replication {{ bahmni_replication_username }} {{ pg_hba_active_host }} md5
 
   when: server_mode == "passive"
+
+- name: Start PostgreSQL
+  service:
+    name: "postgresql-{{ postgres_version }}"
+    state: "started"
 
