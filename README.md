@@ -35,9 +35,11 @@ git clone -b docker-dev git@github.com:MSF-OCB/bahmni-playbooks.git /opt/bahmni/
 
 On the build machine:
 ```
-docker save localhost:5000/<img name>:<version> | 7za a -t7z -m0=lzma2 -ms=on -mx=9 -si <img name>-<version>.tar.7z
+IMG="<img name>:<version>"
+HOST="<target_host>"
+docker save localhost:5000/${IMG} | 7za a -t7z -m0=lzma2 -ms=on -mx=9 -si ${IMG}.tar.7z
 eval $(ssh-agent)
-false; while [ $? -ne 0 ]; do rsync --partial --delay-updates --progress --rsync-path="sudo rsync" -e "ssh -F $HOME/.ssh/config" <img name>-<version>.tar.7z <target_host>:/opt/; done
+false; while [ $? -ne 0 ]; do rsync --partial --delay-updates --progress --rsync-path="sudo rsync" -e "ssh -F $HOME/.ssh/config" ${IMG}.tar.7z ${HOST}:/opt/; done
 ```
 
 On the receiving machine (called "target_host" above): (in /opt)
