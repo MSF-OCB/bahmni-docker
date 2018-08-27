@@ -11,11 +11,12 @@
     - variables.yml
     - variables_private.yml
   roles:
+    - ansible_config
     - configure
+    - icon
     - copy_omods
     - sshd_config
     - { role: backup_config, when: bahmni_backup|default(false)|bool }
     - { role: postgres, when: postgres_present|bool }
     - permissions
-    - ansible_config
 

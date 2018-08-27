@@ -1,0 +1,7 @@
+---
+
+- name: Copy the MSF logo
+  copy:
+    src: msf_logo.png
+    dest: /opt/bahmni-web/etc/bahmniapps/images/msf_logo.png
+
