@@ -1,5 +1,14 @@
 ---
 
+- name: Add replication user
+  postgresql_user:
+    login_user: postgres
+    name: "{{ bahmni_replication_username }}"
+    password: "{{ bahmni_replication_password }}"
+    role_attr_flags: REPLICATION,LOGIN
+    state: present
+  when: server_mode == "active"
+
 - name: Stop PostgreSQL
   service:
     name: "postgresql-{{ postgres_version }}"
@@ -11,15 +20,6 @@
     file:
       path: "/var/lib/pgsql/{{ postgres_version }}/data/recovery.conf"
       state: absent
-
-  - name: Add replication user
-    postgresql_user:
-      login_user: postgres
-      name: "{{ bahmni_replication_username }}"
-      password: "{{ bahmni_replication_password }}"
-      role_attr_flags: REPLICATION,LOGIN
-#      conn_limit: 2
-      state: present
 
   - name: Determine what to add to the pg_hba.conf file
     set_fact:
