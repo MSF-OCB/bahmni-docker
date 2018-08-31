@@ -2,7 +2,7 @@
 
 - name: Make list of all std services
   set_fact:
-    fixed_services: [ "ntpd", "crond", "mysqld" ]
+    fixed_services: [ "crond", "mysqld" ]
 
 - name: Make list of postgres service
   set_fact:
