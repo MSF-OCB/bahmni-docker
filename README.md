@@ -33,13 +33,9 @@ git clone -b docker-dev git@github.com:MSF-OCB/bahmni-playbooks.git /opt/bahmni/
 
 # Copy the docker image by rsync
 
-On the build machine:
+Use the script `transfer.sh` from the bahmni-docker-compose repo, on the build machine you run:
 ```
-IMG="<img name>:<version>"
-HOST="<target_host>"
-docker save localhost:5000/${IMG} | 7za a -t7z -m0=lzma2 -ms=on -mx=9 -si ${IMG}.tar.7z
-eval $(ssh-agent)
-false; while [ $? -ne 0 ]; do rsync --partial --delay-updates --progress --rsync-path="sudo rsync" -e "ssh -F $HOME/.ssh/config" ${IMG}.tar.7z ${HOST}:/opt/; done
+./transfer.sh <img name> <version> <host>
 ```
 
 On the receiving machine (called "target_host" above): (in /opt)
