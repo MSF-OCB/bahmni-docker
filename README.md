@@ -46,6 +46,6 @@ cd /opt
 
 To copy between the active and the passive, copy your (passphrase protected!!) private key onto the sending server and run:
 ```
-rsync --partial --delay-updates --progress --rsync-path="sudo rsync" -e "ssh -i .ssh/id_ec" /opt/<img name>-<version>.tar.7z bahmni-passive.msf.org:/opt/
+rsync --partial --delay-updates --progress --rsync-path="sudo rsync" -e "ssh -i ${HOME}/.ssh/id_ec" /opt/<img name>-<version>.tar.7z bahmni-passive.msf.org:/opt/
 ```
 Or use `bahmni.msf.org` as host name for the other direction.
