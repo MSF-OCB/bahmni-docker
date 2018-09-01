@@ -6,3 +6,8 @@
     regexp: "^archive_mode"
     line: "archive_mode = off"
 
+- name: Removing recovery config file
+  file:
+    path: "/var/lib/pgsql/{{ postgres_version }}/data/recovery.conf"
+    state: absent
+

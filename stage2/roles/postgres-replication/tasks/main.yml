@@ -16,11 +16,6 @@
 
 - block:
 
-  - name: Removing recovery config file
-    file:
-      path: "/var/lib/pgsql/{{ postgres_version }}/data/recovery.conf"
-      state: absent
-
   - name: Determine what to add to the pg_hba.conf file
     set_fact:
       pg_hba_passive_host: "{{ passive_host if (not (passive_host | ipaddr)) else passive_host + '/32' }}"
