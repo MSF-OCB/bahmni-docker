@@ -16,14 +16,6 @@
     backup: yes
     mode: 0644
 
-- name: Create /var/log/mysql directory to store binlogs if it does not exist
-  file:
-    path: /var/log/mysql
-    state: directory
-    mode: 0700
-    owner: mysql
-    group: mysql
-
 - name: Restart MySQL
   service:
     name: mysqld
