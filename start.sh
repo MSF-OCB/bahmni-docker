@@ -36,6 +36,10 @@ case $1 in
 
   ${BAHMNI} start
 
+  if [ -f /usr/bin/bahmni_batch ] && [ -x /usr/bin/bahmni_batch ]; then
+    /usr/bin/bahmni_batch
+  fi
+
   tail -F /var/log/openmrs/openmrs.log /var/log/bahmni-lab/bahmni-lab.log /var/log/bahmni-reports/bahmni-reports.log
   ;;
 "passive")
