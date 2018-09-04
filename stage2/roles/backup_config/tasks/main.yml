@@ -30,7 +30,7 @@
     name: local backup
     hour: "*/3"
     minute: "00"
-    weekday: "1,2,3,4,5,6,0"
+    weekday: "*"
     job: "{{ bahmni_backup_dir }}/backup.sh 2>&1 | tee {{ bahmni_backup_dir }}/last.log > /dev/null"
 
 # Backup to passive every day every three hours at the half hour (30 */3)
@@ -39,7 +39,7 @@
     name: passive backup
     hour: "*/3"
     minute: "30"
-    weekday: "1,2,3,4,5,6,0"
+    weekday: "*"
     job: "{{ bahmni_backup_dir }}/move_backup_to_passive.sh 2>&1 | tee -a {{ bahmni_backup_dir }}/last.log > /dev/null"
 
 # Backup to nestor every day every three hours at the half hour (30 */3)
@@ -48,7 +48,7 @@
     name: nestor backup
     hour: "*/3"
     minute: "30"
-    weekday: "1,2,3,4,5,6,0"
+    weekday: "*"
     job: "{{ bahmni_backup_dir }}/move_backup_to_nestor.sh 2>&1 | tee -a {{ bahmni_backup_dir }}/last.log > /dev/null"
 
 # Cleanup old backups daily at 4 in the night (0 4)
@@ -57,7 +57,7 @@
     name: backup cleanup
     hour: "4"
     minute: "0"
-    weekday: "1,2,3,4,5,6,0"
+    weekday: "*"
     job: "/bin/find {{ bahmni_backup_dir }}/backups/ -mtime +30 -exec rm -rf {} \\; > /dev/null 2>&1"
 
 # Cleanup backups log file weekly at 5h30 in the night on Saturday (30 5)
