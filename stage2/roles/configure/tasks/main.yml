@@ -15,6 +15,18 @@
     path: "/etc/bahmni-installer/deployment-artifacts/{{ bahmni_implementation_name }}_config/.git"
     state: absent
 
+- name: Check if bahmni_config/report.html exists
+  stat:
+    path: "/etc/bahmni-installer/deployment-artifacts/{{ bahmni_implementation_name }}_config/report.html"
+  register: report_html_stat
+
+- name: Set owner of bahmni_config/report.html to bahmni
+  file:
+    path: "/etc/bahmni-installer/deployment-artifacts/{{ bahmni_implementation_name }}_config/report.html"
+    owner: bahmni
+    group: bahmni
+  when: report_html_stat.stat.exists
+
 #- stat:
 #    path: "/etc/bahmni-installer/deployment-artifacts/{{ bahmni_implementation_name }}_config/db_dumps/openmrs_backup.sql"
 #  register: openmrs_dump
