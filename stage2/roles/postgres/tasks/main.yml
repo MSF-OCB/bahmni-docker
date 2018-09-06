@@ -29,3 +29,9 @@
     path: "/var/lib/pgsql/{{ postgres_version }}/data/recovery.conf"
     state: absent
 
+- name: Restart the postgres service
+  service:
+    name: "postgresql-{{ postgres_version }}"
+    state: restarted
+  when: restart|default(false)|bool
+
