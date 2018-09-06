@@ -18,10 +18,11 @@ collation-server=utf8_general_ci
 max_connections=150
 sync_binlog = {{ sync_binlog }}
 
-# For replication
-{% if ( setup_replication|bool and server_mode == 'active' ) %}
-server-id = {{ master_server_id }}
+{% if ( setup_replication|bool ) %}
+# Replication settings
 binlog_format = {{ binlog_format }}
+{% if ( server_mode == 'active' ) %}
+server-id = {{ master_server_id }}
 log-bin = {{ log_bin_file_name }}
 log-bin-index = {{ log_bin_index_file_name }}
 expire_logs_days = {{ expire_logs_days }}
@@ -29,12 +30,12 @@ max_binlog_size = {{ max_binlog_size }}
 innodb_flush_log_at_trx_commit = {{ innodb_flush_log_at_trx_commit }}
 {% endif %}
 
-{% if ( setup_replication|bool and server_mode == 'passive' ) %}
+{% if ( server_mode == 'passive' ) %}
 server-id = {{ slave_server_id }}
-binlog_format = {{ binlog_format }}
 master_info_repository = TABLE
 relay_log_info_repository = TABLE
 relay_log_recovery = 1
 read_only = 1
+{% endif %}
 {% endif %}
 
