@@ -27,7 +27,7 @@
 - name: Create the log file
   file:
     path: /var/log/postgresql.log
-    user: postgres
+    owner: postgres
     group: postgres
     mode: 0440
     state: touch
