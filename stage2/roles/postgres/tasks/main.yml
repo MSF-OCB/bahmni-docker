@@ -10,13 +10,13 @@
   lineinfile:
     path: "/var/lib/pgsql/{{ postgres_version }}/data/postgresql.conf"
     regexp: "^log_directory"
-    line: "log_directory = /var/log/"
+    line: "log_directory = '/var/log/'"
 
 - name: Set log_filename
   lineinfile:
     path: "/var/lib/pgsql/{{ postgres_version }}/data/postgresql.conf"
     regexp: "^log_filename"
-    line: "log_filename = postgresql.log"
+    line: "log_filename = 'postgresql.log'"
 
 - name: Set log_rotation_age
   lineinfile:
