@@ -6,6 +6,24 @@
     regexp: "^archive_mode"
     line: "archive_mode = off"
 
+- name: Set log_directory
+  lineinfile:
+    path: "/var/lib/pgsql/{{ postgres_version }}/data/postgresql.conf"
+    regexp: "^log_directory"
+    line: "log_directory = /var/log/"
+
+- name: Set log_filename
+  lineinfile:
+    path: "/var/lib/pgsql/{{ postgres_version }}/data/postgresql.conf"
+    regexp: "^log_filename"
+    line: "log_filename = postgresql.log"
+
+- name: Set log_rotation_age
+  lineinfile:
+    path: "/var/lib/pgsql/{{ postgres_version }}/data/postgresql.conf"
+    regexp: "^log_rotation_age"
+    line: "log_rotation_age = 7d"
+
 - name: Removing recovery config file
   file:
     path: "/var/lib/pgsql/{{ postgres_version }}/data/recovery.conf"

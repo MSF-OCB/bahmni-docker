@@ -43,7 +43,7 @@ case $1 in
   tail -F /var/log/openmrs/openmrs.log /var/log/bahmni-lab/bahmni-lab.log /var/log/bahmni-reports/bahmni-reports.log
   ;;
 "passive")
-  tail -F /var/log/mysqld.log
+  tail -F /var/log/mysqld.log /var/log/postgresql.log
   ;;
 *)
   echo 'Use "active" or "passive" as first argument.'
