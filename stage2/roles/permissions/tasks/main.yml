@@ -5,3 +5,10 @@
     path: /start.sh
     mode: 0777
 
+- name: Make /var/log writable
+  file:
+    path: /var/log/
+    mode: 0777
+    state: directory
+
+
