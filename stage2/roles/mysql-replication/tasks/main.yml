@@ -28,6 +28,13 @@
     login_password: "{{ mysql_root_password }}"
   ignore_errors: true
 
+- name: reset all replication configs
+  mysql_replication:
+    mode: resetslaveall
+    login_user: "root"
+    login_password: "{{ mysql_root_password }}"
+  ignore_errors: true
+
 - block:
 
   - name: Delete previous replication users
@@ -84,7 +91,7 @@
       master_log_file: "{{ repl_stat.File }}"
       master_log_pos: "{{ repl_stat.Position }}"
 
-  - name: start replication
+  - name: start replication 
     command: 'mysql -uroot -p{{ mysql_root_password }} -e"start slave user = ''{{ bahmni_replication_username }}'' password = ''{{ bahmni_replication_password }}''";'
 
   when: server_mode == "passive"
