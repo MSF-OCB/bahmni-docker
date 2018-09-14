@@ -40,6 +40,7 @@
   - name: Delete previous replication users
     mysql_user:
       name: "{{ bahmni_replication_username }}"
+      host_all: yes
       login_user: "root"
       login_password: "{{ mysql_root_password }}"
       state: absent
