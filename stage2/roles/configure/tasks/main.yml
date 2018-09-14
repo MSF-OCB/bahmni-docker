@@ -9,6 +9,15 @@
     version: "{{ bahmni_implementation_branch }}"
     depth: 1
     force: yes
+    
+- name: Register the config commit hash
+  command: "git rev-parse HEAD"
+  register: config_commit_hash
+  
+- name: Write the config commit hash to a file
+  copy:
+    content: "{{ config_commit_hash }}"
+    dest: "/config_commit_hash"
 
 - name: Delete Git info from Bahmni config
   file:
