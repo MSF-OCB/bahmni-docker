@@ -53,6 +53,11 @@
       login_password: "{{ mysql_root_password }}"
       priv: "*.*:ALL,GRANT"
       state: present
+      
+  - name: Restart MySQL
+    service:
+      name: mysqld
+      state: restarted
 
   when: server_mode == "active"
 
