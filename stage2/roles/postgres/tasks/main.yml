@@ -29,6 +29,19 @@
     path: "/var/lib/pgsql/{{ postgres_version }}/data/recovery.conf"
     state: absent
 
+- name: Link the localtime timezone
+  file:
+    src: /etc/localtime
+    dest: /usr/share/zoneinfo/localtime
+    state: link
+
+- name: Set the timezone to localtime
+  lineinfile:
+    path: "/var/lib/pgsql/{{ postgres_version }}/data/postgresql.conf"
+    regexp: "^timezone"
+    line: "timezone = 'localtime'"
+  when: false # Disabled until further testing is done.
+
 - name: Restart the postgres service
   service:
     name: "postgresql-{{ postgres_version }}"
