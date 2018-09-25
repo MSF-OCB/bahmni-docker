@@ -11,12 +11,12 @@
     force: yes
     
 - name: Register the config commit hash
-  command: "git rev-parse HEAD"
+  command: "git --git-dir=/etc/bahmni-installer/deployment-artifacts/{{ bahmni_implementation_name }}_config/.git rev-parse HEAD"
   register: config_commit_hash
   
 - name: Write the config commit hash to a file
   copy:
-    content: "{{ config_commit_hash }}"
+    content: "{{ config_commit_hash.stdout}}"
     dest: "/config_commit_hash"
 
 - name: Delete Git info from Bahmni config
