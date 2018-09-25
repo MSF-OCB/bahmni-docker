@@ -23,8 +23,6 @@ COPY inventories/inventory_${BAHMNI_IMPL_NAME} /inventory
 
 ARG BAHMNI_TIMEZONE
 ARG BAHMNI_INSTALLER_URL
-ARG BAHMNI_IMPLEMENTATION_REPO
-ARG BAHMNI_IMPLEMENTATION_BRANCH
 ARG BAHMNI_POSTGRES_PRESENT
 RUN bash -e /tmp/stage1.sh
 
@@ -39,6 +37,9 @@ COPY artifacts/misc/ /tmp/
 # The glob means the file is optional but COPY needs to copy at least one file,
 # so we add this to the copy instruction for start.sh to make sure something will always be copied.
 COPY start.sh marker* /
+
+ARG BAHMNI_IMPLEMENTATION_REPO
+ARG BAHMNI_IMPLEMENTATION_BRANCH
 
 RUN bash -e /tmp/stage2.sh
 
