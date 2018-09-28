@@ -10,12 +10,6 @@
     name: "{{ bahmni_installer_url }}"
     state: present
 
-- name: Synchronize the certs directory
-  synchronize:
-    src: "/tmp/artifacts/certs/"
-    dest: "{{ bahmni_cert_dir }}"
-    checksum: yes
-
 - name: Synchronize the default setup file
   template:
     src: "default-setup.j2"
