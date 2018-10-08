@@ -15,8 +15,10 @@ localhost
 [bahmni-lab-db-slave]
 
 [bahmni-reports]
+localhost
 
 [bahmni-reports-db]
+localhost
 
 [bahmni-reports-db-slave]
 
