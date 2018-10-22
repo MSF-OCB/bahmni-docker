@@ -24,11 +24,11 @@ git clone git@github.com:MSF-OCB/Bahmni-docker.git /opt/bahmni/
 
 Clone the playbooks repo:
 ```
-git clone -b docker-dev https://github.com/MSF-OCB/bahmni-playbooks /opt/bahmni/bahmni/artifacts/bahmni-playbooks
+git clone -b docker-dev-0.xx https://github.com/MSF-OCB/bahmni-playbooks /opt/bahmni/bahmni/artifacts/bahmni-playbooks
 ```
 or
 ```
-git clone -b docker-dev git@github.com:MSF-OCB/bahmni-playbooks.git /opt/bahmni/bahmni/artifacts/bahmni-playbooks
+git clone -b docker-dev-0.xx git@github.com:MSF-OCB/bahmni-playbooks.git /opt/bahmni/bahmni/artifacts/bahmni-playbooks
 ```
 
 # Copy the docker image by rsync
