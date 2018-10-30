@@ -14,7 +14,7 @@ omods:
   - "{{ omod }}"
 {% endfor %}
 {% endif %}
-openmrs_server_options: "-Xms2048m -Xmx4096m {{ bahmni_java_gc_opts }}"
+openmrs_server_options: "-Xms2048m -Xmx6144m {{ bahmni_java_gc_opts }}"
 bahmni_lab_server_opts: "-Xms512m -Xmx1024m {{ bahmni_java_gc_opts }}"
 bahmni_reports_server_opts: "-Xms512m -Xmx1024m {{ bahmni_java_gc_opts }}"
 mysql_root_password: "{{ mysql_root_password }}"
