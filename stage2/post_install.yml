@@ -7,9 +7,6 @@
     - bahmni_implementation_name: "{{ lookup('env', 'BAHMNI_IMPL_NAME') }}"
     - bahmni_implementation_repo: "{{ lookup('env', 'BAHMNI_IMPLEMENTATION_REPO') }}"
     - bahmni_implementation_branch: "{{ lookup('env', 'BAHMNI_IMPLEMENTATION_BRANCH') }}"
-    - active_host: "{{ lookup('env', 'BAHMNI_ACTIVE_HOST') }}"
-    - passive_host: "{{ lookup('env', 'BAHMNI_PASSIVE_HOST') }}"
-    - nestor_host: "{{ lookup('env', 'BAHMNI_NESTOR_HOST') }}"
   vars_files:
     - variables.yml
     - variables_private.yml
