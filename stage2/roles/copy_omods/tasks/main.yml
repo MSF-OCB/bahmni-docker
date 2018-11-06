@@ -7,4 +7,21 @@
     delete: no
     copy_links: yes
     checksum: yes
+    rsync_opts:
+      - "--exclude=.gitignore"
+
+- name: Set permissions for OMODs
+  file:
+    path: /opt/openmrs/modules
+    owner: bahmni
+    group: bahmni
+    mode: "a=r-x"
+    recurse: yes
+
+- name: Set permissions for OMODs directory
+  file:
+    path: /opt/openmrs/modules
+    owner: bahmni
+    group: bahmni
+    mode: "a=r+X"
 
