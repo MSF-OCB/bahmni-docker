@@ -20,7 +20,7 @@ DAY=$(date +%Y-%m-%d)
 TIME=$(date +%H%M%S)
 
 BACKUP_DIR="{{ bahmni_backup_dir }}/backups"
-DAY_DIR_NAME="${BACKUP_DIR}/${HOSTNAME}-${DAY}"
+DAY_DIR_NAME="${BACKUP_DIR}/${BAHMNI_IMPL_NAME}-${DAY}"
 TIME_DIR_NAME="${DAY_DIR_NAME}/${TIME}"
 
 mkdir -p ${TIME_DIR_NAME}
