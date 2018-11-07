@@ -19,4 +19,5 @@
     - { role: postgres, restart: true, when: postgres_present|bool }
     - { role: postgres-replication, when: setup_replication|bool and postgres_present|bool }
     - reset_search_index
+    - bahmni_home
 
