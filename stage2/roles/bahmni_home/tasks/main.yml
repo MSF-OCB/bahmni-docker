@@ -5,7 +5,7 @@
     path: "/home/bahmni/.bahmni-reports"
     owner: bahmni
     group: bahmni
-    mode: 0666
+    mode: 0555
     state: directory
 
 - name: Create the bahmni-reports.properties link
