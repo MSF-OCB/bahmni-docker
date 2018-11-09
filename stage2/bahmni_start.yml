@@ -18,6 +18,6 @@
     - { role: mysql-replication, when: setup_replication|bool }
     - { role: postgres, restart: true, when: postgres_present|bool }
     - { role: postgres-replication, when: setup_replication|bool and postgres_present|bool }
-    - reset_search_index
+    - { role: reset_search_index, when: server_mode == "active" }
     - bahmni_home
 
