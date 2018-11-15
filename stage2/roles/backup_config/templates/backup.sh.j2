@@ -37,8 +37,8 @@ sed -i 's/\(DROP DATABASE "clinlims";\)/\1\nDROP SCHEMA "clinlims" CASCADE;/' ${
 
 $TAR -cf ${TIME_DIR_NAME}/homebahmni_$DATETIME.tar -C / home/bahmni
 
-$TAR -cf ${TIME_DIR_NAME}/bahmni_config_$DATETIME.tar -C / \
-  var/www/bahmni_config #\
+#$TAR -cf ${TIME_DIR_NAME}/bahmni_config_$DATETIME.tar -C / \
+  #var/www/bahmni_config #\
   #opt/bahmni-web \
   #opt/bahmni-lab \
   #opt/bahmni-lab-connect \
