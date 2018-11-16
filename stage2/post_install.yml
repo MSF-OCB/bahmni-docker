@@ -9,7 +9,6 @@
     - bahmni_implementation_branch: "{{ lookup('env', 'BAHMNI_IMPLEMENTATION_BRANCH') }}"
   vars_files:
     - variables.yml
-    - variables_private.yml
   roles:
     - ansible_config
     - configure

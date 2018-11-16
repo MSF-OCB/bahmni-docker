@@ -7,7 +7,6 @@
     - bahmni_openelis_enabled: "{{ lookup('env', 'BAHMNI_OPENELIS_ENABLED') }}"
   vars_files:
     - variables.yml
-    - variables_private.yml
   roles:
       - { role: manage_services, state: stopped }
 

@@ -10,7 +10,6 @@
     - bahmni_reports_enabled: "{{ lookup('env', 'BAHMNI_REPORTS_ENABLED') }}"
   vars_files:
     - variables.yml
-    - variables_private.yml
   roles:
     - fix_python
     - setup_installer

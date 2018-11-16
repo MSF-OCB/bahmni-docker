@@ -12,7 +12,6 @@
     - passive_host: "{{ lookup('env', 'BAHMNI_PASSIVE_HOST') }}"
   vars_files:
     - variables.yml
-    - variables_private.yml
   roles:
     - { role: manage_services, state: started }
     - { role: mysql-replication, when: setup_replication|bool }
