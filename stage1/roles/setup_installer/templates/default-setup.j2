@@ -17,5 +17,7 @@ omods:
 openmrs_server_options: "-Xms2048m -Xmx6144m {{ bahmni_java_gc_opts }} -Duser.timezone={{ bahmni_timezone }}"
 bahmni_lab_server_opts: "-Xms512m -Xmx1024m {{ bahmni_java_gc_opts }} -Duser.timezone={{ bahmni_timezone }}"
 bahmni_reports_server_opts: "-Xms512m -Xmx1024m {{ bahmni_java_gc_opts }} -Duser.timezone={{ bahmni_timezone }}"
+{% if mysql_root_password is defined %}
 mysql_root_password: "{{ mysql_root_password }}"
+{% endif %}
 
