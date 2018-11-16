@@ -3,8 +3,8 @@
 - hosts: localhost
   connection: local
   vars:
-    server_mode: "{{ lookup('env', 'BAHMNI_SERVER_MODE') }}"
-    postgres_present: "{{ lookup('env', 'BAHMNI_POSTGRES_PRESENT') }}"
+    - server_mode: "{{ lookup('env', 'BAHMNI_SERVER_MODE') }}"
+    - bahmni_openelis_enabled: "{{ lookup('env', 'BAHMNI_OPENELIS_ENABLED') }}"
   vars_files:
     - variables.yml
     - variables_private.yml

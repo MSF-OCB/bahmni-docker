@@ -6,7 +6,7 @@
 
 - name: Make list of postgres service
   set_fact:
-    postgres_service: "{{ postgres_present | bool | ternary([ \"postgresql-\" + (postgres_version | string) ], []) }}"
+    postgres_service: "{{ bahmni_openelis_enabled | bool | ternary([ \"postgresql-\" + (postgres_version | string) ], []) }}"
 
 - name: Make list of all services
   set_fact:

@@ -6,6 +6,8 @@
     - bahmni_installer_url: "{{ lookup('env', 'BAHMNI_INSTALLER_URL') }}"
     - bahmni_implementation_name: "{{ lookup('env', 'BAHMNI_IMPL_NAME') }}"
     - bahmni_timezone: "{{ lookup('env', 'BAHMNI_TIMEZONE') }}"
+    - bahmni_openelis_enabled: "{{ lookup('env', 'BAHMNI_OPENELIS_ENABLED') }}"
+    - bahmni_reports_enabled: "{{ lookup('env', 'BAHMNI_REPORTS_ENABLED') }}"
   vars_files:
     - variables.yml
     - variables_private.yml

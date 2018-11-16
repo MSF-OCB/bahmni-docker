@@ -16,14 +16,13 @@ COPY artifacts/certs/* /etc/bahmni_certs/
 COPY stage1/ /ansible/
 COPY stage1.sh /tmp/
 COPY artifacts/bahmni-playbooks/ /tmp/artifacts/bahmni-playbooks/
-COPY config.sh /
+COPY config.sh inventory /
 
 ARG BAHMNI_IMPL_NAME
-COPY inventories/inventory_${BAHMNI_IMPL_NAME} /inventory
-
 ARG BAHMNI_TIMEZONE
 ARG BAHMNI_INSTALLER_URL
-ARG BAHMNI_POSTGRES_PRESENT
+ARG BAHMNI_OPENELIS_ENABLED
+ARG BAHMNI_REPORTS_ENABLED
 RUN bash -e /tmp/stage1.sh
 
 COPY stage2/ /ansible/

@@ -1,4 +1,4 @@
-localhost ansible_connection=local bahmni_backup=true
+localhost ansible_connection=local
 
 [bahmni-emr]
 localhost
@@ -9,16 +9,26 @@ localhost
 [bahmni-emr-db-slave]
 
 [bahmni-lab]
+{% if bahmni_openelis_enabled|bool %}
+localhost
+{% endif %}
 
 [bahmni-lab-db]
+{% if bahmni_openelis_enabled|bool %}
+localhost
+{% endif %}
 
 [bahmni-lab-db-slave]
 
 [bahmni-reports]
+{% if bahmni_reports_enabled|bool %}
 localhost
+{% endif %}
 
 [bahmni-reports-db]
+{% if bahmni_reports_enabled|bool %}
 localhost
+{% endif %}
 
 [bahmni-reports-db-slave]
 

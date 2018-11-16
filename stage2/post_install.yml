@@ -3,7 +3,7 @@
 - hosts: localhost
   connection: local
   vars:
-    - postgres_present: "{{ lookup('env', 'BAHMNI_POSTGRES_PRESENT') }}"
+    - bahmni_openelis_enabled: "{{ lookup('env', 'BAHMNI_OPENELIS_ENABLED') }}"
     - bahmni_implementation_name: "{{ lookup('env', 'BAHMNI_IMPL_NAME') }}"
     - bahmni_implementation_repo: "{{ lookup('env', 'BAHMNI_IMPLEMENTATION_REPO') }}"
     - bahmni_implementation_branch: "{{ lookup('env', 'BAHMNI_IMPLEMENTATION_BRANCH') }}"
@@ -16,7 +16,7 @@
     - icon
     - copy_omods
     - sshd_config
-    - { role: backup_config, when: bahmni_backup|default(false)|bool }
-    - { role: postgres, when: postgres_present|bool }
+    - backup_config
+    - { role: postgres, when: bahmni_openelis_enabled|bool }
     - permissions
 

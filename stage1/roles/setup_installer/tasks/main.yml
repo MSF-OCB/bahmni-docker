@@ -16,9 +16,9 @@
     dest: "/etc/bahmni-installer/setup.yml"
 
 - name: Synchronize the inventory file
-  copy:
-    src: /inventory
-    dest: /etc/bahmni-installer/local
+  template:
+    src: "inventory"
+    dest: "/etc/bahmni-installer/local"
 
 - name: Create directory for deployment artifacts
   file:

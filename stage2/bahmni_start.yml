@@ -4,7 +4,7 @@
   connection: local
   vars:
     - server_mode: "{{ lookup('env', 'BAHMNI_SERVER_MODE') }}"
-    - postgres_present: "{{ lookup('env', 'BAHMNI_POSTGRES_PRESENT') }}"
+    - bahmni_openelis_enabled: "{{ lookup('env', 'BAHMNI_OPENELIS_ENABLED') }}"
     - setup_replication: "{{ lookup('env', 'BAHMNI_SETUP_REPLICATION') }}"
     - bahmni_replication_username: "{{ lookup('env', 'BAHMNI_REPLICATION_USERNAME') }}"
     - bahmni_replication_password: "{{ lookup('env', 'BAHMNI_REPLICATION_PASSWORD') }}"
@@ -16,8 +16,8 @@
   roles:
     - { role: manage_services, state: started }
     - { role: mysql-replication, when: setup_replication|bool }
-    - { role: postgres, restart: true, when: postgres_present|bool }
-    - { role: postgres-replication, when: setup_replication|bool and postgres_present|bool }
+    - { role: postgres, restart: true, when: bahmni_openelis_enabled|bool }
+    - { role: postgres-replication, when: setup_replication|bool and bahmni_openelis_enabled|bool }
     - { role: reset_search_index, when: server_mode == "active" }
     - bahmni_home
 
