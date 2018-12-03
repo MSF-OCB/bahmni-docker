@@ -2,6 +2,10 @@
 
 source ./config.sh
 
+# Clear all pid files, needed as long as we don't properly trap signals
+# and kill the processes inside the container.
+rm -rf /var/run/*
+
 # Function to cleanly stop the container
 function teardown {
   ${BAHMNI} stop || true
