@@ -37,7 +37,9 @@ case $1 in
     ${BAHMNI} update-config
     # We need to run the ELIS migrations manually as long as they are not included in update-config
     # Run 'sh -c "help set"' for documentation about the options
-    sh -vx /opt/bahmni-installer/bahmni-playbooks/roles/bahmni-lab/files/run-implementation-openelis-liquibase.sh
+    if [ "${BAHMNI_OPENELIS_ENABLED}" == "yes" ]; then
+      sh -vx /opt/bahmni-installer/bahmni-playbooks/roles/bahmni-lab/files/run-implementation-openelis-liquibase.sh
+    fi
     touch ${CONFIG_UPDATED_FILE}
   fi
 
