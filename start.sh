@@ -1,10 +1,10 @@
 #!/bin/bash -e
 
-source ./config.sh
+source /config.sh
 
 # Clear all pid files, needed as long as we don't properly trap signals
 # and kill the processes inside the container.
-rm -rf /var/run/*
+find /var/run -name "*.pid" -exec rm -f {} \;
 
 # Function to cleanly stop the container
 function teardown {
