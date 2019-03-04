@@ -7,4 +7,5 @@ log_bin_file_name: /var/lib/mysql/mysql-bin
 log_bin_index_file_name: /var/lib/mysql/mysql-bin.index
 innodb_flush_log_at_trx_commit: 1
 sync_binlog: 1
+mysql_root_password: password
 
