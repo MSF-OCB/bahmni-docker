@@ -35,6 +35,9 @@ case $1 in
   CONFIG_UPDATED_FILE="/config_updated"
   if [ ! -f ${CONFIG_UPDATED_FILE} ]; then
     ${BAHMNI} update-config
+    # We need to run the ELIS migrations manually as long as they are not included in update-config
+    # Run 'sh -c "help set"' for documentation about the options
+    sh -vx /opt/bahmni-installer/bahmni-playbooks/roles/bahmni-lab/files/run-implementation-openelis-liquibase.sh
     touch ${CONFIG_UPDATED_FILE}
   fi
 
