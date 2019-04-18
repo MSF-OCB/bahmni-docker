@@ -1,0 +1,16 @@
+#!/bin/sh
+
+BACKUP_DIR="{{ bahmni_backup_dir }}/backups/"
+
+/bin/find ${BACKUP_DIR} -mtime +30 -exec rm -rf {} \;
+
+for ARCHIVE in $(/bin/find ${BACKUP_DIR} -mtime +10); do
+  DAY="$(date -r ${ARCHIVE} +%w)"
+  # Keep Wed and Sat (days 3 and 6)
+  for i in 1 2 4 5 0; do
+    if [[ ${DAY} -eq ${i} ]]; then
+      echo ${ARCHIVE}
+    fi
+  done
+done
+

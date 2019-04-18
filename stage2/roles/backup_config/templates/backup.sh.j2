@@ -10,6 +10,11 @@ if [ "${BAHMNI_SERVER_MODE}" != "active" ]; then
   exit 0
 fi
 
+if [ "${BAHMNI_SKIP_BACKUPS}" = "true" ] || [ "${BAHMNI_SKIP_BACKUPS}" = "yes" ]; then
+  echo "Skipping backup, BAHMNI_SKIP_BACKUPS is set to true."
+  exit 0
+fi
+
 BAHMNI_BACKUP_ENC_KEY="$(head -1 ${BAHMNI_ENC_FILE_PATH})"
 
 ZIP7=/usr/bin/7za

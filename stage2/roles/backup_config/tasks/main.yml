@@ -18,6 +18,7 @@
     - backup.sh
     - move_backup_to_passive.sh
     - move_backup_to_nestor.sh
+    - cleanup_backups.sh
 
 - name: Start cron service
   service:
@@ -58,7 +59,7 @@
     hour: "4"
     minute: "0"
     weekday: "*"
-    job: "/bin/find {{ bahmni_backup_dir }}/backups/ -mtime +30 -exec rm -rf {} \\; > /dev/null 2>&1"
+    job: "{{ bahmni_backup_dir }}/cleanup_backups.sh 2>&1 | tee -a {{ bahmni_backup_dir }}/last.log > /dev/null"
 
 # Cleanup backups log file weekly at 5h30 in the night on Saturday (30 5)
 - name: Configure backup logfile cleanup cronjob
