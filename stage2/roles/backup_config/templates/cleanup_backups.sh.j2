@@ -9,7 +9,7 @@ for ARCHIVE in $(/bin/find ${BACKUP_DIR} -mtime +10); do
   # Keep Wed and Sat (days 3 and 6)
   for i in 1 2 4 5 0; do
     if [[ ${DAY} -eq ${i} ]]; then
-      echo ${ARCHIVE}
+      rm ${ARCHIVE}
     fi
   done
 done
