@@ -4,9 +4,6 @@ yum install -y git python-netaddr
 
 source ./config.sh
 
-${BAHMNI} stop
-ansible-playbook -i ${INVENTORY} /ansible/bahmni_stop.yml
-
 ansible-playbook -i ${INVENTORY} /ansible/post_install.yml
 
 if [ -f ${IMPL_SPEC_PLAYBOOK} ]; then
