@@ -12,5 +12,5 @@ fi
 
 BACKUP_DIR="{{ bahmni_backup_dir }}/backups"
 
-rsync -e "ssh -p 2222 -i /root/.ssh/bahmni_key -o StrictHostKeyChecking=no" -avz --omit-dir-times --delete ${BACKUP_DIR}/ root@${BAHMNI_PASSIVE_HOST}:${BACKUP_DIR}/
+rsync -e "ssh -p 2222 -i /root/.ssh/bahmni_key -o StrictHostKeyChecking=no -o GlobalKnownHostsFile=/dev/null -o UserKnownHostsFile=/dev/null" -avz --omit-dir-times --delete ${BACKUP_DIR}/ root@${BAHMNI_PASSIVE_HOST}:${BACKUP_DIR}/
 
