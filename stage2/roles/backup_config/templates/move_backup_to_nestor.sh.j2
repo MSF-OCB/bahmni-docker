@@ -14,7 +14,7 @@ fi
 BACKUP_DIR="{{ bahmni_backup_dir }}/backups"
 NESTOR_BACKUP_DIR="${BAHMNI_NESTOR_BACKUP_DIR}/bahmni/backups"
 
-ssh -o ConnectTimeout=30 -o StrictHostKeyChecking=no -o GlobalKnownHostsFile=/dev/null -o UserKnownHostsFile=/dev/null -o IdentitiesOnly=yes -o Compression=no -o ControlMaster=no -i /root/.ssh/bahmni_key root@{BAHMNI_NESTOR_HOST} "[ -d ${NESTOR_BACKUP_DIR} ] || mkdir -p ${NESTOR_BACKUP_DIR}"
+ssh -o ConnectTimeout=30 -o StrictHostKeyChecking=no -o GlobalKnownHostsFile=/dev/null -o UserKnownHostsFile=/dev/null -o IdentitiesOnly=yes -o Compression=no -o ControlMaster=no -i /root/.ssh/bahmni_key root@${BAHMNI_NESTOR_HOST} "[ -d ${NESTOR_BACKUP_DIR} ] || mkdir -p ${NESTOR_BACKUP_DIR}"
 
 rsync --rsync-path=${BAHMNI_NESTOR_RSYNC_PATH} -e "ssh -o ConnectTimeout=30 -o StrictHostKeyChecking=no -o GlobalKnownHostsFile=/dev/null -o UserKnownHostsFile=/dev/null -o IdentitiesOnly=yes -o Compression=no -o ControlMaster=no -i /root/.ssh/bahmni_key" -avz --omit-dir-times --delete ${BACKUP_DIR}/ root@${BAHMNI_NESTOR_HOST}:"${NESTOR_BACKUP_DIR}/"
 
