@@ -1,5 +1,10 @@
 ---
 
+- name: Install the needed libraries to do SNI with Python 2.6
+  yum:
+    name: python-urllib3 pyOpenSSL
+    state: present
+
 # https://stackoverflow.com/questions/26279207/installing-pip-using-easy-install
 - name: Fix pypi.python.org url for easy_install
   replace:
