@@ -24,6 +24,15 @@
     path: "/etc/bahmni-installer/deployment-artifacts/{{ bahmni_implementation_name }}_config/.git"
     state: absent
 
+- name: Check if a configuration directory for openmrs-module-initializer is present
+  stat:
+    path: "/etc/bahmni-installer/deployment-artifacts/{{ bahmni_implementation_name }}_config/openmrs-module-initializer/configuration"
+  register: openmrs_module_initializer_config
+
+- name: Move the openmrs-module-initializer configuration directory
+  command: "mv /etc/bahmni-installer/deployment-artifacts/{{ bahmni_implementation_name }}_config/openmrs-module-initializer/configuration /opt/openmrs/"
+  when: openmrs_module_initializer_config.stat.exists and openmrs_module_initializer_config.stat.isdir
+
 - name: Check if bahmni_config/report.html exists
   stat:
     path: "/etc/bahmni-installer/deployment-artifacts/{{ bahmni_implementation_name }}_config/report.html"
