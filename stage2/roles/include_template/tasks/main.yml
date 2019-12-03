@@ -1,0 +1,12 @@
+---
+
+- name: Check if a template role exists
+  stat:
+    path: "{{ config_location }}/ansible/roles/template"
+  register: template_stat
+
+- name: Include the template role
+  include_role:
+    name: template
+  when: template_stat.stat.exists
+
