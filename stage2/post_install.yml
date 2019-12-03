@@ -7,12 +7,11 @@
     - bahmni_implementation_name: "{{ lookup('env', 'BAHMNI_IMPL_NAME') }}"
     - bahmni_implementation_repo: "{{ lookup('env', 'BAHMNI_IMPLEMENTATION_REPO') }}"
     - bahmni_implementation_branch: "{{ lookup('env', 'BAHMNI_IMPLEMENTATION_BRANCH') }}"
-    - config_location: "/etc/bahmni-installer/deployment-artifacts/{{ bahmni_implementation_name }}_config"
+    - inside_docker: true
   vars_files:
     - variables.yml
   roles:
     - ansible_config
-    - include_template
     - configure
     - icon
     - copy_omods

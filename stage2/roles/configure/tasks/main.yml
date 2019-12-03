@@ -24,6 +24,16 @@
     path: "/etc/bahmni-installer/deployment-artifacts/{{ bahmni_implementation_name }}_config/.git"
     state: absent
 
+- name: Check if a template role exists
+  stat:
+    path: "/etc/bahmni-installer/deployment-artifacts/{{ bahmni_implementation_name }}_config/ansible/roles/template"
+  register: template_stat
+
+- name: Include the template role
+  include_role:
+    name: "/etc/bahmni-installer/deployment-artifacts/{{ bahmni_implementation_name }}_config/ansible/roles/template"
+  when: template_stat.stat.exists
+
 - name: Check if a configuration directory for openmrs-module-initializer is present
   stat:
     path: "/etc/bahmni-installer/deployment-artifacts/{{ bahmni_implementation_name }}_config/openmrs-module-initializer/configuration"
