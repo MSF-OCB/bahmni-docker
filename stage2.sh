@@ -15,9 +15,9 @@ yum remove -y git
 yum clean all
 
 # For the replication to work, active and passive need a different server uuid
-# We delete the directory with the auto-generated server uuid so that it gets
+# We delete the file with the auto-generated server uuid so that it gets
 # regenerated on the next run when we start the image with an empty volume.
-rm -rf /var/lib/mysql/*
+rm -rf /var/lib/mysql/auto.cnf
 
 rm -rf /var/log/*
 rm -rf /var/run/*
