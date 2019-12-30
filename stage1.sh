@@ -10,7 +10,6 @@ ${BAHMNI} install
 ${BAHMNI} stop
 ansible-playbook -i ${INVENTORY} /ansible/bahmni_stop.yml
 
-yum remove -y git
 yum clean all
 
 # We use /etc/bahmni_certs
