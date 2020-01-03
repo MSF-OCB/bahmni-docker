@@ -8,6 +8,12 @@
     - bahmni_timezone: "{{ lookup('env', 'BAHMNI_TIMEZONE') }}"
     - bahmni_openelis_enabled: "{{ lookup('env', 'BAHMNI_OPENELIS_ENABLED') }}"
     - bahmni_reports_enabled: "{{ lookup('env', 'BAHMNI_REPORTS_ENABLED') }}"
+    - openmrs_user_id: "{{ lookup('env', 'OPENMRS_USER_ID') }}"
+    - openmrs_user_password: "{{ lookup('env', 'OPENMRS_USER_PASSWORD') }}"
+    - openelis_username: "{{ lookup('env', 'OPENELIS_USERNAME') }}"
+    - openelis_password: "{{ lookup('env', 'OPENELIS_PASSWORD') }}"
+    - reports_user_id: "{{ lookup('env', 'REPORTS_USER_ID') }}"
+    - reports_user_password: "{{ lookup('env', 'REPORTS_USER_PASSWORD') }}"
   vars_files:
     - variables.yml
   roles:

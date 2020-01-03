@@ -1,5 +1,26 @@
 ---
 
+- name: "Backup atomfeed.properties to preserve atomfeed user credentials"
+  copy:
+    src: "/opt/bahmni-lab/bahmni-lab/WEB-INF/classes/atomfeed.properties"
+    dest: "/tmp/atomfeed.properties.bak"
+    mode: preserve
+    remote_src: yes
+
+- name: "Backup bahmni-reports.properties to preserve reports-user credentials"
+  copy:
+    src: "/etc/bahmni-reports/bahmni-reports.properties"
+    dest: "/tmp/bahmni-reports.properties.bak"
+    mode: preserve
+    remote_src: yes
+
+- name: "Backup bahmnicore.properties to preserve admin user credentials"
+  copy:
+    src: "/opt/openmrs/bahmnicore.properties"
+    dest: "/tmp/bahmnicore.properties.bak"
+    mode: preserve
+    remote_src: yes
+
 - name: Clone the Bahmni config
   git:
     repo: "{{ bahmni_implementation_repo }}"
@@ -9,7 +30,7 @@
     version: "{{ bahmni_implementation_branch }}"
     depth: 1
     force: yes
-    
+     
 - name: Register the config commit hash
   command: "git --git-dir=/etc/bahmni-installer/deployment-artifacts/{{ bahmni_implementation_name }}_config/.git rev-parse HEAD"
   register: config_commit_hash
@@ -23,7 +44,7 @@
   file:
     path: "/etc/bahmni-installer/deployment-artifacts/{{ bahmni_implementation_name }}_config/.git"
     state: absent
-
+    
 - name: Check if a template role exists
   stat:
     path: "/etc/bahmni-installer/deployment-artifacts/{{ bahmni_implementation_name }}_config/ansible/roles/template"

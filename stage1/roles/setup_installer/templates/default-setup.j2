@@ -7,6 +7,12 @@ SSLCertificateFilePath: {{ bahmni_cert_dir }}/{{ bahmni_cert }}
 SSLCertificateKeyFilePath: {{ bahmni_cert_dir }}/{{ bahmni_cert_key }}
 SSLCertificateChainFilePath: {{ bahmni_cert_dir }}/{{ bahmni_cert_chain }}
 selinux_state: disabled
+
+openmrs_user_id: {{ openmrs_user_id }}
+openmrs_user_password: {{ openmrs_user_password }}
+openelis_username: {{ openelis_username }}
+openelis_password: {{ openelis_password }}
+
 docker: yes
 {% if custom_omods is defined %}
 omods:
@@ -20,4 +26,3 @@ bahmni_reports_server_opts: "-Xms512m -Xmx1024m {{ bahmni_java_gc_opts }} -Duser
 {% if mysql_root_password is defined %}
 mysql_root_password: "{{ mysql_root_password }}"
 {% endif %}
-

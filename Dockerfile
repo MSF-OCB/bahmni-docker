@@ -17,12 +17,20 @@ COPY stage1/ /ansible/
 COPY stage1.sh /tmp/
 COPY artifacts/bahmni-playbooks/ /tmp/artifacts/bahmni-playbooks/
 COPY config.sh inventory /
+COPY artifacts/misc/ /tmp/
 
 ARG BAHMNI_IMPL_NAME
 ARG BAHMNI_TIMEZONE
 ARG BAHMNI_INSTALLER_URL
 ARG BAHMNI_OPENELIS_ENABLED
 ARG BAHMNI_REPORTS_ENABLED
+ARG OPENMRS_USER_ID
+ARG OPENMRS_USER_PASSWORD
+ARG OPENELIS_USERNAME
+ARG OPENELIS_PASSWORD
+ARG REPORTS_USER_ID
+ARG REPORTS_USER_PASSWORD
+
 RUN bash -e /tmp/stage1.sh
 
 COPY stage2/ /ansible/

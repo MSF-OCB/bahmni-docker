@@ -1,0 +1,20 @@
+- name: "Restore atomfeed.properties"
+  copy:
+    src: "/tmp/atomfeed.properties.bak"
+    dest: "/opt/bahmni-lab/bahmni-lab/WEB-INF/classes/atomfeed.properties"
+    mode: preserve
+    remote_src: yes
+
+- name: "Restore bahmnicore.properties"
+  copy:
+    src: "/tmp/bahmnicore.properties.bak"
+    dest: "/opt/openmrs/bahmnicore.properties"
+    mode: preserve
+    remote_src: yes
+
+- name: "Restore bahmni-reports.properties"
+  copy:
+    src: "/tmp/bahmni-reports.properties.bak"
+    dest: "/etc/bahmni-reports/bahmni-reports.properties"
+    mode: preserve
+    remote_src: yes
