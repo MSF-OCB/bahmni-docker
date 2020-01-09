@@ -17,7 +17,7 @@ COPY stage1/ /ansible/
 COPY stage1.sh /tmp/
 COPY artifacts/bahmni-playbooks/ /tmp/artifacts/bahmni-playbooks/
 COPY config.sh inventory /
-COPY artifacts/misc_stage1/ /tmp/
+COPY artifacts/misc_stage1/ /opt/
 
 ARG BAHMNI_IMPL_NAME
 ARG BAHMNI_TIMEZONE
