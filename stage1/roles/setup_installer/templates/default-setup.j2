@@ -8,10 +8,10 @@ SSLCertificateKeyFilePath: {{ bahmni_cert_dir }}/{{ bahmni_cert_key }}
 SSLCertificateChainFilePath: {{ bahmni_cert_dir }}/{{ bahmni_cert_chain }}
 selinux_state: disabled
 
-openmrs_user_id: {{ openmrs_user_id }}
-openmrs_user_password: {{ openmrs_user_password }}
-openelis_username: {{ openelis_username }}
-openelis_password: {{ openelis_password }}
+openmrs_user_id: {{ bahmni_openmrs_username }}
+openmrs_user_password: {{ bahmni_openmrs_password }}
+openelis_username: {{ bahmni_openelis_username }}
+openelis_password: {{ bahmni_openelis_password }}
 
 docker: yes
 {% if custom_omods is defined %}

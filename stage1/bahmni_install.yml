@@ -8,12 +8,12 @@
     - bahmni_timezone: "{{ lookup('env', 'BAHMNI_TIMEZONE') }}"
     - bahmni_openelis_enabled: "{{ lookup('env', 'BAHMNI_OPENELIS_ENABLED') }}"
     - bahmni_reports_enabled: "{{ lookup('env', 'BAHMNI_REPORTS_ENABLED') }}"
-    - openmrs_user_id: "{{ lookup('env', 'OPENMRS_USER_ID') }}"
-    - openmrs_user_password: "{{ lookup('env', 'OPENMRS_USER_PASSWORD') }}"
-    - openelis_username: "{{ lookup('env', 'OPENELIS_USERNAME') }}"
-    - openelis_password: "{{ lookup('env', 'OPENELIS_PASSWORD') }}"
-    - reports_user_id: "{{ lookup('env', 'REPORTS_USER_ID') }}"
-    - reports_user_password: "{{ lookup('env', 'REPORTS_USER_PASSWORD') }}"
+    - bahmni_openmrs_username: "{{ lookup('env', 'BAHMNI_OPENMRS_USERNAME') }}"
+    - bahmni_openmrs_password: "{{ lookup('env', 'BAHMNI_OPENMRS_PASSWORD') }}"
+    - bahmni_openelis_username: "{{ lookup('env', 'BAHMNI_OPENELIS_USERNAME') }}"
+    - bahmni_openelis_password: "{{ lookup('env', 'BAHMNI_OPENELIS_PASSWORD') }}"
+    - bahmni_reports_username: "{{ lookup('env', 'BAHMNI_REPORTS_USERNAME') }}"
+    - bahmni_reports_password: "{{ lookup('env', 'BAHMNI_REPORTS_PASSWORD') }}"
   vars_files:
     - variables.yml
   roles:

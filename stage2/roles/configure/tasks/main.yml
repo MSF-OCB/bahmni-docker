@@ -3,11 +3,11 @@
     path: "/opt/bahmni-lab/bahmni-lab/WEB-INF/classes/atomfeed.properties"
   register: atomfeedfile_stat
 
-- name: Backup atomfeed.properties to preserve atomfeed user credentials
+- name: Backup (if exists) atomfeed.properties to preserve atomfeed user credentials
   copy:
     src: "/opt/bahmni-lab/bahmni-lab/WEB-INF/classes/atomfeed.properties"
     dest: "/tmp/atomfeed.properties.bak"
-  when: atomfeedfile_stat.stat.exists
+  when: atomfeedfile_stat.stat.exists  
 
 - name: Check if bahmni-reports.properties exists
   stat:

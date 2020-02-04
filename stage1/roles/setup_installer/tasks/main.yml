@@ -45,13 +45,13 @@
   replace:
     path: "/opt/bahmni-installer/bahmni-playbooks/group_vars/local"
     regexp: "openmrs_reporting_user: reports-user"
-    replace: "openmrs_reporting_user: {{ lookup('env','REPORTS_USER_ID') }}"
+    replace: "openmrs_reporting_user: {{ lookup('env','BAHMNI_REPORTS_USERNAME') }}"
 
 - name: Replace report user password
   replace:
     path: "/opt/bahmni-installer/bahmni-playbooks/group_vars/local"
     regexp: "openmrs_reporting_password: Admin123"
-    replace: "openmrs_reporting_password: {{ lookup('env','REPORTS_USER_PASSWORD') }}"
+    replace: "openmrs_reporting_password: {{ lookup('env','BAHMNI_REPORTS_PASSWORD') }}"
 
 # See pull request @ https://github.com/Bahmni/bahmni-playbooks/pull/6
 - name: Remove ProxyPreserveHost directive
