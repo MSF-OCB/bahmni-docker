@@ -1,25 +1,22 @@
 ---
 
-- name: "Backup atomfeed.properties to preserve atomfeed user credentials"
+- name: "Backup (if exists) atomfeed.properties to preserve atomfeed user credentials"
   copy:
     src: "/opt/bahmni-lab/bahmni-lab/WEB-INF/classes/atomfeed.properties"
     dest: "/tmp/atomfeed.properties.bak"
-    mode: preserve
-    remote_src: yes
+  failed_when: false
 
-- name: "Backup bahmni-reports.properties to preserve reports-user credentials"
+- name: "Backup (if exists) bahmni-reports.properties to preserve reports-user credentials"
   copy:
     src: "/etc/bahmni-reports/bahmni-reports.properties"
     dest: "/tmp/bahmni-reports.properties.bak"
-    mode: preserve
-    remote_src: yes
+  failed_when: false
 
-- name: "Backup bahmnicore.properties to preserve admin user credentials"
+- name: "Backup (if exists) bahmnicore.properties to preserve admin user credentials"
   copy:
     src: "/opt/openmrs/bahmnicore.properties"
     dest: "/tmp/bahmnicore.properties.bak"
-    mode: preserve
-    remote_src: yes
+  failed_when: false
 
 - name: Clone the Bahmni config
   git:
