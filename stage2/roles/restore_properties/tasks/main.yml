@@ -1,17 +1,32 @@
+- name: Check if atomfeed.properties exists
+  stat:
+    path: "/tmp/atomfeed.properties.bak"
+  register: atomfeedfile_stat
+
 - name: "Restore atomfeed.properties"
   copy:
     src: "/tmp/atomfeed.properties.bak"
     dest: "/opt/bahmni-lab/bahmni-lab/WEB-INF/classes/atomfeed.properties"
-  failed_when: false
+  when: atomfeedfile_stat.stat.exists
+
+- name: Check if bahmnicore.properties exists
+  stat:
+    path: "/tmp/bahmnicore.properties.bak"
+  register: bahmnicorefile_stat
 
 - name: "Restore bahmnicore.properties"
   copy:
     src: "/tmp/bahmnicore.properties.bak"
     dest: "/opt/openmrs/bahmnicore.properties"
-  failed_when: false
+  when: bahmnicorefile_stat.stat.exists
+
+- name: Check if bahmni-reports.properties exists
+  stat:
+    path: "/tmp/bahmni-reports.properties.bak"
+  register: bahmnireportsfile_stat
 
 - name: "Restore bahmni-reports.properties"
   copy:
     src: "/tmp/bahmni-reports.properties.bak"
     dest: "/etc/bahmni-reports/bahmni-reports.properties"
-  failed_when: false
+  when: bahmnireportsfile_stat.stat.exists
