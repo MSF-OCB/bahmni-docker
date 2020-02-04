@@ -1,22 +1,35 @@
----
+- name: Check if atomfeed.properties exists
+  stat:
+    path: "/opt/bahmni-lab/bahmni-lab/WEB-INF/classes/atomfeed.properties"
+  register: atomfeedfile_stat
 
-- name: "Backup (if exists) atomfeed.properties to preserve atomfeed user credentials"
+- name: Backup atomfeed.properties to preserve atomfeed user credentials
   copy:
     src: "/opt/bahmni-lab/bahmni-lab/WEB-INF/classes/atomfeed.properties"
     dest: "/tmp/atomfeed.properties.bak"
-  failed_when: false
+  when: atomfeedfile_stat.stat.exists
 
-- name: "Backup (if exists) bahmni-reports.properties to preserve reports-user credentials"
+- name: Check if bahmni-reports.properties exists
+  stat:
+    path: "/etc/bahmni-reports/bahmni-reports.properties"
+  register: bahmnireportsfile_stat
+
+- name: Backup bahmni-reports.properties to preserve reports-user credentials
   copy:
     src: "/etc/bahmni-reports/bahmni-reports.properties"
     dest: "/tmp/bahmni-reports.properties.bak"
-  failed_when: false
+  when: bahmnireportsfile_stat.stat.exists
 
-- name: "Backup (if exists) bahmnicore.properties to preserve admin user credentials"
+- name: Check if bahmnicore.properties exists
+  stat:
+    path: "/opt/openmrs/bahmnicore.properties"
+  register: bahmnicorefile_stat
+
+- name: Backup bahmnicore.properties to preserve admin user credentials
   copy:
     src: "/opt/openmrs/bahmnicore.properties"
     dest: "/tmp/bahmnicore.properties.bak"
-  failed_when: false
+  when: bahmnicorefile_stat.stat.exists
 
 - name: Clone the Bahmni config
   git:
