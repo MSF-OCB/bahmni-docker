@@ -1,7 +1,7 @@
 #!/bin/bash -e
 
 yum install -y git python-netaddr
-pip install --upgrade jinja2
+pip install --upgrade jinja2==2.10.3
 
 source ./config.sh
 
