@@ -43,18 +43,93 @@ sed -i 's/\(DROP DATABASE "clinlims";\)/\1\nDROP SCHEMA "clinlims" CASCADE;/' ${
 
 ${TAR} -cf ${TIME_DIR_NAME}/homebahmni_${DATETIME}.tar -C / home/bahmni
 
-#$TAR -cf ${TIME_DIR_NAME}/bahmni_config_$DATETIME.tar -C / \
-  #var/www/bahmni_config #\
-  #opt/bahmni-web \
-  #opt/bahmni-lab \
-  #opt/bahmni-lab-connect \
-  #opt/openmrs \
-  #opt/bahmni-reports \
-  #opt/bahmni-implementer-interface \
-  #opt/atomfeed-console
-
 # https://sevenzip.osdn.jp/chm/cmdline/switches/method.htm
 ${NICE} ${ZIP7} a -t7z -m0=lzma2 -ms=on -bd -mx=9 -sdel -ssw -p"${BAHMNI_BACKUP_ENC_KEY}" -mhe=on "${DAY_DIR_NAME}.7z" "${DAY_DIR_NAME}"
 
 ${RM} -rf "${DAY_DIR_NAME}/"
+
+#####################################
+# Remove old backups before syncing #
+#####################################
+echo "Remove old backups before syncing..."
+
+# Delete backups older than 30 days
+/bin/find ${BACKUP_DIR} -mtime +30 -exec rm -rf {} \;
+
+# Delete spurious files not ending in .7z
+/bin/find ${BACKUP_DIR} -mindepth 1 -maxdepth 1 -not -name "*.7z" -not -type l -exec rm -rf {} \;
+
+for ARCHIVE in $(/bin/find ${BACKUP_DIR} -mtime +8); do
+  DAY="$(date -r ${ARCHIVE} +%w)"
+  # Keep Wed and Sat (days 3 and 6)
+  for i in 1 2 4 5 0; do
+    if [[ ${DAY} -eq ${i} ]]; then
+      rm ${ARCHIVE}
+    fi
+  done
+done
+
+##################
+# Sync to nestor #
+##################
+
+echo "Starting move to nestor at $(date +%Y%m%d_%H%M%S)"
+
+if [ "${BAHMNI_BACKUP_NESTOR}" != "yes" ]; then
+  echo "Skipping backup, mode (${BAHMNI_SERVER_MODE}) is not equal to active or bahmni_backup_nestor (${BAHMNI_BACKUP_NESTOR}) is not equal to yes."
+else
+  NESTOR_BACKUP_DIR="${BAHMNI_NESTOR_BACKUP_DIR}/bahmni/backups"
+
+  # Create the backup directory if it does not exist yet
+  ssh -o ConnectTimeout=30 \
+      -o StrictHostKeyChecking=no \
+      -o GlobalKnownHostsFile=/dev/null \
+      -o UserKnownHostsFile=/dev/null \
+      -o IdentitiesOnly=yes \
+      -o Compression=no \
+      -o ControlMaster=no \
+      -i /root/.ssh/bahmni_key \
+      root@${BAHMNI_NESTOR_HOST} \
+      "[ -d ${NESTOR_BACKUP_DIR} ] || mkdir -p ${NESTOR_BACKUP_DIR}"
+
+  rsync --rsync-path=${BAHMNI_NESTOR_RSYNC_PATH} \
+        -e "ssh -o ConnectTimeout=30 \
+                -o StrictHostKeyChecking=no \
+                -o GlobalKnownHostsFile=/dev/null \
+                -o UserKnownHostsFile=/dev/null \
+                -o IdentitiesOnly=yes \
+                -o Compression=no \
+                -o ControlMaster=no \
+                -i /root/.ssh/bahmni_key" \
+        -avz \
+        --omit-dir-times \
+        --delete \
+        ${BACKUP_DIR}/ \
+        root@${BAHMNI_NESTOR_HOST}:"${NESTOR_BACKUP_DIR}/"
+fi
+
+###################
+# Sync to paasive #
+###################
+
+echo "Starting move to passive at $(date +%Y%m%d_%H%M%S)"
+
+if [ "${BAHMNI_BACKUP_PASSIVE}" != "yes" ]; then
+  echo "Skipping backup, mode (${BAHMNI_SERVER_MODE}) is not equal to active or bahmni_backup_passive (${BAHMNI_BACKUP_PASSIVE}) is not equal to yes."
+else
+  rsync -e "ssh -p 2222 \
+                -o ConnectTimeout=30 \
+                -o StrictHostKeyChecking=no \
+                -o GlobalKnownHostsFile=/dev/null \
+                -o UserKnownHostsFile=/dev/null \
+                -o IdentitiesOnly=yes \
+                -o Compression=no \
+                -o ControlMaster=no \
+                -i /root/.ssh/bahmni_key" \
+        -avz \
+        --omit-dir-times \
+        --delete \
+        ${BACKUP_DIR}/ \
+        root@${BAHMNI_PASSIVE_HOST}:${BACKUP_DIR}/
+fi
 

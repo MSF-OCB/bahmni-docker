@@ -16,9 +16,6 @@
     mode: "0700"
   with_items:
     - backup.sh
-    - move_backup_to_passive.sh
-    - move_backup_to_nestor.sh
-    - cleanup_backups.sh
 
 - name: Start cron service
   service:
@@ -33,33 +30,6 @@
     minute: "00"
     weekday: "*"
     job: "{{ bahmni_backup_dir }}/backup.sh 2>&1 | tee -a {{ bahmni_backup_dir }}/last.log > /dev/null"
-
-# Backup to passive every day every three hours at the half hour (30 */3)
-- name: Configure passive backup cronjob
-  cron:
-    name: passive backup
-    hour: "*/3"
-    minute: "30"
-    weekday: "*"
-    job: "{{ bahmni_backup_dir }}/move_backup_to_passive.sh 2>&1 | tee -a {{ bahmni_backup_dir }}/last.log > /dev/null"
-
-# Backup to nestor every day every three hours at the half hour (30 */3)
-- name: Configure nestor backup cronjob
-  cron:
-    name: nestor backup
-    hour: "*/3"
-    minute: "30"
-    weekday: "*"
-    job: "{{ bahmni_backup_dir }}/move_backup_to_nestor.sh 2>&1 | tee -a {{ bahmni_backup_dir }}/last.log > /dev/null"
-
-# Cleanup old backups daily at 4 in the night (0 4)
-- name: Configure backup cleanup cronjob
-  cron:
-    name: backup cleanup
-    hour: "4"
-    minute: "0"
-    weekday: "*"
-    job: "{{ bahmni_backup_dir }}/cleanup_backups.sh 2>&1 | tee -a {{ bahmni_backup_dir }}/last.log > /dev/null"
 
 # Cleanup backups log file weekly at 5h30 in the night on Saturday (30 5)
 - name: Configure backup logfile cleanup cronjob
