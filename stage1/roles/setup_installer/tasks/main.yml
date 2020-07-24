@@ -60,3 +60,9 @@
     regexp: "ProxyPreserveHost On"
     state: absent
 
+- name: remove click v7.1.2
+    raw: pip uninstall -y click==7.1.2
+
+- name: install click v7.0
+    raw: easy_install click==7.0
+
