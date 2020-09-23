@@ -1,9 +1,9 @@
-#!/bin/sh
+#!/bin/bash
 
 . /cron_env.sh
 
-DATETIME=$(date +%Y%m%d_%H%M%S)
-echo "Starting backup at ${DATETIME}"
+datetime="$(date +%Y%m%d_%H%M%S)"
+echo "Starting backup at ${datetime}"
 
 if [ "${BAHMNI_SERVER_MODE}" != "active" ]; then
   echo "Skipping backup, mode ${BAHMNI_SERVER_MODE} is not equal to active."
@@ -15,38 +15,64 @@ if [ "${BAHMNI_SKIP_BACKUPS}" = "true" ] || [ "${BAHMNI_SKIP_BACKUPS}" = "yes" ]
   exit 0
 fi
 
-BAHMNI_BACKUP_ENC_KEY="$(head -1 ${BAHMNI_ENC_FILE_PATH})"
+bahmni_backup_enc_key="$(head -1 ${BAHMNI_ENC_FILE_PATH})"
 
 NICE=/bin/nice
 ZIP7=/usr/bin/7za
 TAR=/bin/tar
 RM=/bin/rm
 
-DAY=$(date +%Y-%m-%d)
-TIME=$(date +%H%M%S)
+day="$(date +%Y-%m-%d)"
+time="$(date +%H%M%S)"
 
-BACKUP_DIR="{{ bahmni_backup_dir }}/backups"
-DAY_DIR_NAME="${BACKUP_DIR}/${BAHMNI_IMPL_NAME}-${DAY}"
-TIME_DIR_NAME="${DAY_DIR_NAME}/${TIME}"
+backup_dir="{{ bahmni_backup_dir }}/backups"
+day_dir_name="${backup_dir}/${BAHMNI_IMPL_NAME}-${day}"
+time_dir_name="${day_dir_name}/${time}"
 
-mkdir -p ${TIME_DIR_NAME}
+mkdir -p "${time_dir_name}"
 
-mysqldump -uroot -ppassword --default-character-set=utf8 --add-drop-database --all-databases --routines --single-transaction --quick --add-locks --disable-keys --extended-insert -r ${TIME_DIR_NAME}/mysql_backup_${DATETIME}.sql
+mysqldump -uroot \
+          -ppassword \
+          --default-character-set=utf8 \
+          --add-drop-database \
+          --all-databases \
+          --routines \
+          --single-transaction \
+          --quick \
+          --add-locks \
+          --disable-keys \
+          --extended-insert \
+          -r "${time_dir_name}/mysql_backup_${datetime}.sql"
 
-# Restore with 
+# Restore with
 #   gunzip -c <file>.sql | psql -Uclinlims --single-transaction postgres
 # the final "postgres" specifies the first database to restore which should
 # be the administrative postgres database.
-pg_dumpall --clean --oids --quote-all-identifiers -Uclinlims > ${TIME_DIR_NAME}/postgresql_backup_${DATETIME}.sql
+pg_dumpall --clean \
+           --oids \
+           --quote-all-identifiers \
+           -Uclinlims > ${time_dir_name}/postgresql_backup_${datetime}.sql
 
-sed -i 's/\(DROP DATABASE "clinlims";\)/\1\nDROP SCHEMA "clinlims" CASCADE;/' ${TIME_DIR_NAME}/postgresql_backup_${DATETIME}.sql
+sed -i 's/\(DROP DATABASE "clinlims";\)/\1\nDROP SCHEMA "clinlims" CASCADE;/' \
+    "${time_dir_name}/postgresql_backup_${datetime}.sql"
 
-${TAR} -cf ${TIME_DIR_NAME}/homebahmni_${DATETIME}.tar -C / home/bahmni
+${TAR} -cf "${time_dir_name}/homebahmni_${datetime}.tar" -C / home/bahmni
 
 # https://sevenzip.osdn.jp/chm/cmdline/switches/method.htm
-${NICE} ${ZIP7} a -t7z -m0=lzma2 -ms=on -bd -mx=9 -sdel -ssw -p"${BAHMNI_BACKUP_ENC_KEY}" -mhe=on "${DAY_DIR_NAME}.7z" "${DAY_DIR_NAME}"
+${NICE} ${ZIP7} a \
+                -t7z \
+                -m0=lzma2 \
+                -ms=on \
+                -bd \
+                -mx=9 \
+                -sdel \
+                -ssw \
+                -p"${bahmni_backup_enc_key}" \
+                -mhe=on \
+                "${day_dir_name}.7z" \
+                "${day_dir_name}"
 
-${RM} -rf "${DAY_DIR_NAME}/"
+${RM} -rf "${day_dir_name}/"
 
 #####################################
 # Remove old backups before syncing #
@@ -54,17 +80,17 @@ ${RM} -rf "${DAY_DIR_NAME}/"
 echo "Remove old backups before syncing..."
 
 # Delete backups older than 30 days
-/bin/find ${BACKUP_DIR} -mtime +30 -exec rm -rf {} \;
+/bin/find "${backup_dir}" -mtime +30 -exec rm -rf {} \;
 
 # Delete spurious files not ending in .7z
-/bin/find ${BACKUP_DIR} -mindepth 1 -maxdepth 1 -not -name "*.7z" -not -type l -exec rm -rf {} \;
+/bin/find "${backup_dir}" -mindepth 1 -maxdepth 1 -not -name "*.7z" -not -type l -exec rm -rf {} \;
 
-for ARCHIVE in $(/bin/find ${BACKUP_DIR} -mtime +8); do
-  DAY="$(date -r ${ARCHIVE} +%w)"
+for archive in $(/bin/find ${backup_dir} -mtime +8); do
+  day="$(date -r ${archive} +%w)"
   # Keep Wed and Sat (days 3 and 6)
   for i in 1 2 4 5 0; do
-    if [[ ${DAY} -eq ${i} ]]; then
-      rm ${ARCHIVE}
+    if [[ "${day}" -eq "${i}" ]]; then
+      rm -rf "${archive}"
     fi
   done
 done
@@ -104,7 +130,7 @@ else
         -avz \
         --omit-dir-times \
         --delete \
-        ${BACKUP_DIR}/ \
+        ${backup_dir}/ \
         root@${BAHMNI_NESTOR_HOST}:"${NESTOR_BACKUP_DIR}/"
 fi
 
@@ -129,7 +155,7 @@ else
         -avz \
         --omit-dir-times \
         --delete \
-        ${BACKUP_DIR}/ \
-        root@${BAHMNI_PASSIVE_HOST}:${BACKUP_DIR}/
+        ${backup_dir}/ \
+        root@${BAHMNI_PASSIVE_HOST}:${backup_dir}/
 fi
 
