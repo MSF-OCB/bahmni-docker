@@ -1,5 +1,12 @@
 ---
 
+- name: Make the bahmni user the owner of his home folder
+  file:
+    path: "/home/bahmni"
+    owner: bahmni
+    group: bahmni
+    recurse: yes
+
 - name: Create the bahmni-reports dir
   file:
     path: "/home/bahmni/.bahmni-reports"
