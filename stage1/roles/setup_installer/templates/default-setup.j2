@@ -3,9 +3,6 @@
 
 timezone: {{ bahmni_timezone }}
 implementation_name: {{ bahmni_implementation_name }}
-SSLCertificateFilePath: {{ bahmni_cert_dir }}/{{ bahmni_cert }}
-SSLCertificateKeyFilePath: {{ bahmni_cert_dir }}/{{ bahmni_cert_key }}
-SSLCertificateChainFilePath: {{ bahmni_cert_dir }}/{{ bahmni_cert_chain }}
 selinux_state: disabled
 
 openmrs_user_id: {{ bahmni_openmrs_username }}
@@ -26,3 +23,4 @@ bahmni_reports_server_opts: "-Xms512m -Xmx1024m {{ bahmni_java_gc_opts }} -Duser
 {% if mysql_root_password is defined %}
 mysql_root_password: "{{ mysql_root_password }}"
 {% endif %}
+

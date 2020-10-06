@@ -20,4 +20,5 @@
     - { role: postgres, when: bahmni_openelis_enabled|bool }
     - permissions
     - security_patch
+    - apache_config
 

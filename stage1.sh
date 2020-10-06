@@ -12,9 +12,6 @@ ansible-playbook -i ${INVENTORY} /ansible/bahmni_stop.yml
 
 yum clean all
 
-# We use /etc/bahmni_certs
-rm -rf /etc/bahmni-certs
-
 rm -rf /var/log/*
 rm -rf /var/run/*
 rm -rf /opt/*.rpm

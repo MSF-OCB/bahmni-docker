@@ -1,0 +1,17 @@
+---
+
+- name: copy the apache config
+  template:
+    src: httpd.conf
+    dest: /etc/httpd/conf/httpd.conf
+
+- name: copy the http virtual host config
+  template:
+    src: http.conf
+    dest: /etc/httpd/conf.d/http.conf
+
+- name: remove the ssl config
+  file:
+    path: /etc/httpd/conf.d/ssl.conf
+    state: absent
+

@@ -12,7 +12,6 @@ RUN yum install -y epel-release && \
                    ansible && \
     yum clean all
 
-COPY artifacts/certs/* /etc/bahmni_certs/
 COPY stage1/ /ansible/
 COPY stage1.sh /tmp/
 COPY artifacts/bahmni-playbooks/ /tmp/artifacts/bahmni-playbooks/
