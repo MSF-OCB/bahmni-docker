@@ -11,10 +11,9 @@ ansible-playbook -i ${INVENTORY} /ansible/post_install.yml
 
 if [ -f ${IMPL_SPEC_PLAYBOOK} ]; then
   ${BAHMNI} --implementation_play=${IMPL_SPEC_PLAYBOOK} install-impl
+fi
 
 ansible-playbook -i ${INVENTORY} /ansible/restore_properties.yml
-
-fi
 
 yum remove -y git
 yum clean all
