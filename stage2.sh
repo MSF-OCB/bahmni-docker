@@ -1,7 +1,9 @@
 #!/bin/bash -e
 
 yum install -y git python-netaddr
-pip install --upgrade jinja2==2.10.3
+# Seems like we cannot install this package anymore
+# This was only required for Kunduz so we disable for now
+#pip install --upgrade jinja2==2.10.3
 
 source ./config.sh
 
