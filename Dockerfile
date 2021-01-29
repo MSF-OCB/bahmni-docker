@@ -3,8 +3,8 @@ MAINTAINER ehealthsupport@brussels.msf.org
 
 COPY artifacts/centos/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo
 RUN yum install -y wget && \
-                   wget https://dl.fedoraproject.org/pub/archive/epel/6/x86_64/epel-release-6-8.noarch.rpm && \
-                   rpm -ivh epel-release-6-8.noarch.rpm && \
+    wget https://dl.fedoraproject.org/pub/archive/epel/6/x86_64/epel-release-6-8.noarch.rpm && \
+    rpm -ivh epel-release-6-8.noarch.rpm && \
     yum install -y sudo \
                    crontabs \
                    python \
