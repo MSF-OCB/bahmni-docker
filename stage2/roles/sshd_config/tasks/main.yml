@@ -18,13 +18,20 @@
     dest: "/root/.ssh/"
     checksum: yes
 
-- name: Set ssh key permissions for root
-  file:
-    path: "/root/.ssh/{{ item }}"
-    mode: 0600
+- block:
+    - name: Check if the key file exists
+      stat:
+        path: "{{ item }"
+        register: stat_result
+
+    - name: Set ssh key permissions for root
+      file:
+        path: "{{ item }}"
+        mode: 0600
+      when: stat_result.stat.exists
   with_items:
-    - bahmni_key
-    - bahmni_key.pub
+    - /root/.ssh/bahmni_key
+    - /root/.ssh/bahmni_key.pub
 
 - name: Create the authorized_keys file
   copy:
