@@ -1,51 +1,44 @@
 # Bahmni-docker
-Docker setup for Bahmni
-
-Create the target directory in `/opt`:
+Clone the bahmni-docker-compose repo:
 ```
-sudo mkdir -p /opt/bahmni
-```
-
-Give permissions to the required users:
-```
-sudo setfacl -m "u:<username>:rwX" /opt/bahmni
-sudo setfacl -m "d:u:<username>:rwX" /opt/bahmni
+git clone https://github.com/MSF-OCB/bahmni-docker-compose/ bahmni
 ```
 
 Clone this repo:
 ```
-git clone https://github.com/MSF-OCB/Bahmni-docker/ /opt/bahmni
+cd bahmni
+git clone https://github.com/MSF-OCB/Bahmni-docker/ bahmni
 ```
-
-If you have trouble login in, you can also copy your (passphrase protected!!) ssh key to the server, add it to your github account and clone via ssh:
-```
-git clone git@github.com:MSF-OCB/Bahmni-docker.git /opt/bahmni/
-```
-
 Clone the playbooks repo:
 ```
-git clone -b docker-dev-0.xx https://github.com/MSF-OCB/bahmni-playbooks /opt/bahmni/bahmni/artifacts/bahmni-playbooks
-```
-or
-```
-git clone -b docker-dev-0.xx git@github.com:MSF-OCB/bahmni-playbooks.git /opt/bahmni/bahmni/artifacts/bahmni-playbooks
+git clone -b docker-dev-0.xx https://github.com/MSF-OCB/bahmni-playbooks bahmni/artifacts/bahmni-playbooks
 ```
 
-# Copy the docker image by rsync
+Create a dummy environment file with `vim .env` with the following content:
+```
+image_name=bahmni_test
+image_version=0
+bahmni_implementation_name=none
+bahmni_openelis_enabled=false
+bahmni_reports_enabled=true
+bahmni_skip_backups=true
+bahmni_installer_url=https://dl.bintray.com/bahmni/rpm/rpms/bahmni-installer-0.91-89.noarch.rpm
+bahmni_implementation_repo=https://github.com/msf-ocb/karachi-bahmni-config
+bahmni_implementation_branch=master
+```
 
-Use the script `transfer.sh` from the bahmni-docker-compose repo, on the build machine you run:
+Put dummy key files in place:
 ```
-./transfer.sh <img name> <version> <host>
+touch bahmni/artifacts/keys/bahmni_key
+touch bahmni/artifacts/keys/bahmni_key.pub
+```
+Download the patched webservices module:
+```
+curl https://dl.bintray.com/openmrs/omod/webservices.rest-2.24.0.omod -o bahmni/artifacts/misc/webservices.rest-2.24.0.omod
 ```
 
-On the receiving machine (called "target_host" above): (in /opt)
+Build an image by running
 ```
-cd /opt
-7za x -so <img name>-<version>.tar.7z | docker load
+docker-compose -f docker-compose.yml -f docker-compose.build.yml build
 ```
 
-To copy between the active and the passive, copy your (passphrase protected!!) private key onto the sending server and run:
-```
-rsync --partial --delay-updates --progress --rsync-path="sudo rsync" -e "ssh -i ${HOME}/.ssh/id_ec" /opt/<img name>-<version>.tar.7z bahmni-passive.msf.org:/opt/
-```
-Or use `bahmni.msf.org` as host name for the other direction.
