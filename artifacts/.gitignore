@@ -1,7 +1,0 @@
-# Ignore subrepositories
-bahmni-playbooks/
-*_config/
-misc*
-misc_stage1*
-sql
-
