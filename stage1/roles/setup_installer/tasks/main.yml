@@ -65,6 +65,9 @@
     name: click
     state: absent
 
+- name: download Click v7.0 from git repo
+  raw: wget https://files.pythonhosted.org/packages/f8/5c/f60e9d8a1e77005f664b76ff8aeaee5bc05d0a91798afd7f53fc998dbc47/Click-7.0.tar.gz -P /opt/
+
 - name: install click v7.0
   raw: easy_install --always-unzip --allow-hosts=None /opt/Click-7.0.tar.gz
 
