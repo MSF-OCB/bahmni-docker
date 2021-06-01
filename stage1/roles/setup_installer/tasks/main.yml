@@ -65,6 +65,16 @@
     name: click
     state: absent
 
+- name: download Click v7.0 from git repo
+  get_url:
+    url: https://github.com/MSF-OCB/bahmni-docker/raw/gh-pages/packages/Click-7.0.tar.gz
+    dest: /opt/Click-7.0.tar.gz
+
 - name: install click v7.0
-  raw: easy_install click==7.0
+  raw: easy_install --always-unzip --allow-hosts=None /opt/Click-7.0.tar.gz
+
+- name: Remove the zip file after installation
+  file:
+    state: absent
+    path: /opt/Click-7.0.tar.gz
 
