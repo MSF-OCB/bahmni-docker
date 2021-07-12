@@ -5,9 +5,15 @@
     name: python-setuptools
     state: present
 
+- name: Download the Bahmni installer
+  get_url:
+    url: "{{ bahmni_installer_url }}"
+    dest: "/tmp/bahmni_installer.rpm"
+    mode: "0777"
+
 - name: Install the Bahmni installer
   yum:
-    name: "{{ bahmni_installer_url }}"
+    name: "/tmp/bahmni_installer.rpm"
     state: present
 
 - name: Synchronize the default setup file
