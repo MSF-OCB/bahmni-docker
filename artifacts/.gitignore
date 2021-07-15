@@ -2,7 +2,6 @@
 bahmni-playbooks/
 *_config/
 misc*
-misc/.gitkeep
 misc_stage1*
 sql
 
